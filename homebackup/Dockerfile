@@ -8,10 +8,12 @@ COPY frontend/ ./
 RUN npm run build
 
 FROM ${BUILD_FROM}
+# the only programs HomeBackup runs: mount/umount/blkid (util-linux), rsync, df/find (busybox), cifs/nfs helpers
+RUN apk add --no-cache rsync util-linux cifs-utils nfs-utils
 WORKDIR /app
 COPY backend/pyproject.toml ./
 COPY backend/homebackup ./homebackup
 RUN pip install --no-cache-dir .
 COPY --from=ui /ui/dist ./static
 ENV HOMEBACKUP_STATIC=/app/static
-CMD ["python3", "-m", "uvicorn", "homebackup.main:app", "--host", "0.0.0.0", "--port", "8099"]
+CMD ["python3", "-m", "uvicorn", "homebackup.main:app_factory", "--factory", "--host", "0.0.0.0", "--port", "8099"]

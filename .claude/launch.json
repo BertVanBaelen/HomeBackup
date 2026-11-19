@@ -4,8 +4,8 @@
     {
       "name": "homebackup",
       "runtimeExecutable": "homebackup/backend/.venv/Scripts/python.exe",
-      "runtimeArgs": ["-m", "uvicorn", "homebackup.main:app", "--app-dir", "homebackup/backend", "--host", "127.0.0.1", "--port", "8099"],
-      "env": { "HOMEBACKUP_STATIC": "homebackup/frontend/dist" },
+      "runtimeArgs": ["-m", "uvicorn", "homebackup.main:app_factory", "--factory", "--app-dir", "homebackup/backend", "--host", "127.0.0.1", "--port", "8099"],
+      "env": { "HOMEBACKUP_STATIC": "homebackup/frontend/dist", "HOMEBACKUP_DEMO": "1" },
       "port": 8099
     }
   ]

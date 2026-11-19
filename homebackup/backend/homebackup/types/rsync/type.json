@@ -1,0 +1,6 @@
+{
+  "id": "rsync",
+  "name": "Generic rsync",
+  "version": "1",
+  "description": "Copy one source folder to a folder on the target."
+}

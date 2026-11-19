@@ -14,3 +14,18 @@ ingress_port: 8099
 panel_icon: mdi:backup-restore
 panel_title: HomeBackup
 panel_admin: true
+# Read-only sources, plus the add-on's own config folder (homebackup.yaml, user types) at /config
+map:
+  - addon_config:rw
+  - homeassistant_config:ro
+  - backup:ro
+  - media:ro
+  - share:ro
+homeassistant_api: true
+# Mounting USB drives and SMB/NFS shares needs these (see DOCS.md, "Why the add-on needs privileges")
+full_access: true
+privileged:
+  - SYS_ADMIN
+  - DAC_READ_SEARCH
+apparmor: false
+udev: true

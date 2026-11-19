@@ -1,11 +1,11 @@
-"""Sample data matching the HomeBackup UI design. Dates are relative to "now" so the UI reads naturally."""
+"""Demo seed data matching the HomeBackup UI design. Dates are relative to "now" so the UI reads naturally."""
 
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 from croniter import croniter
 
-from .models import Hooks, Item, Message, RunSummary, Settings, Target, TargetStatus
+from .models import Device, Hooks, Item, Message, RunSummary, Settings, Target
 
 SAMPLE_NOW = datetime(2026, 11, 10, 14, 9, tzinfo=ZoneInfo("Europe/Brussels"))  # as drawn in the design
 GB = 1024**3
@@ -55,26 +55,25 @@ TARGETS = [
     Target(id="tg2", name="usb-archive", kind="drive", filesystem="ext4", find_by="label", ident="HB-ARCHIVE",
            rsync_flags="-a", min_free_bytes=10 * GB),
     Target(id="tg3", name="nas-backup", kind="share", protocol="smb", host="nas.local", share="backup", username="homebackup",
-           password_set=True, rsync_flags="-rt --no-perms --no-owner --no-group", min_free_bytes=10 * GB),
+           rsync_flags="-rt --no-perms --no-owner --no-group", min_free_bytes=10 * GB),
 ]
 
-TARGET_STATUS = {
-    "tg1": TargetStatus(ok=True, device="/dev/sda2", free_bytes=412 * GB),
-    "tg2": TargetStatus(ok=False, problem=Message(code="drive_not_found")),
-    "tg3": TargetStatus(ok=True, free_bytes=int(3.1 * 1024 * GB)),
-}
+# usb-archive (label HB-ARCHIVE) is deliberately unplugged
+DEVICES = [Device(device="/dev/sda2", uuid="3E4F-91AB", filesystem="exfat"),
+           Device(device="/dev/sdb1", uuid="b1e2c3d4-0000-4a4a-9c9c-112233445566", label="SPARE", filesystem="ext4")]
 
 SETTINGS = Settings(hook_success="script.backup_ok", hook_warning="script.backup_warn",
-                    hook_failure="script.backup_failed")
+                    hook_failure="script.backup_failed", time_zone="Europe/Brussels")
+SCRIPTS = ["script.backup_failed", "script.backup_ok", "script.backup_warn", "script.notify_phone"]
 
-RUNNING = {"item": "music-to-nas", "minutes": 9, "bytes_total": int(45.6 * GB), "percent": 47.0}
+RUNNING = {"item": "music-to-nas", "minutes": 9}  # demo mode starts this run on start-up
 
 DURATION = {"ha-backups": 300, "music-to-nas": 26 * 60, "immich-full-monthly": 107 * 60,
             "immich-recent": 18 * 60, "ha-config": 42}
 
 
 def build_runs(now: datetime) -> list[RunSummary]:
-    """All finished runs plus the one running now, newest first."""
+    """Finished runs, newest first (the demo's running run is started for real on start-up)."""
     runs: list[RunSummary] = []
     started = now - timedelta(minutes=RUNNING["minutes"])
     for item in ITEMS:
@@ -94,7 +93,4 @@ def build_runs(now: datetime) -> list[RunSummary]:
                 exit_code=None if failed else (24 if code == "w" else 0),
                 message=MESSAGES.get(code, {}).get(item.name, DEFAULT_WARNING if code == "w" else None),
             ))
-    rid = next(i.id for i in ITEMS if i.name == RUNNING["item"])
-    runs.append(RunSummary(id=f"{rid}-{started:%Y%m%d%H%M}", item_id=rid,
-                           trigger="scheduled", status="running", started=started))
     return sorted(runs, key=lambda r: r.started, reverse=True)
