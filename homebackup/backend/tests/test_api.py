@@ -117,3 +117,33 @@ def test_settings_config_types_scripts(client):
 
 def test_invalid_query_rejected(client):
     assert client.get("/api/v1/runs", params={"status": "bogus"}).status_code == 422
+
+
+def test_target_test_reports_not_writable_and_unmounts(client, store, monkeypatch):
+    from pathlib import Path
+
+    def refuse(*_a, **_k):
+        raise PermissionError("read-only")
+
+    monkeypatch.setattr(Path, "write_text", refuse)
+    r = client.post("/api/v1/targets/test", json={"id": "tg1", "name": "usb-stick", "kind": "drive", "find_by": "uuid",
+                                                  "ident": "3E4F-91AB", "filesystem": "exfat", "rsync_flags": "-rt",
+                                                  "min_free_bytes": 0}).json()
+    assert r["problem"]["code"] == "not_writable"
+    assert store.exec.calls[-1][0] == "umount"
+
+
+def test_testing_a_new_password_does_not_replace_the_saved_one(client, store):
+    before = store.cfg.cred_path("tg3").read_text()
+    client.post("/api/v1/targets/test", json={"id": "tg3", "name": "nas-backup", "kind": "share", "protocol": "smb",
+                                              "host": "nas.local", "share": "backup", "username": "homebackup",
+                                              "password": "typed-not-saved", "rsync_flags": "-rt", "min_free_bytes": 0})
+    assert store.cfg.cred_path("tg3").read_text() == before
+    assert not [p for p in store.cfg.secrets_dir.iterdir() if p.name.startswith("test-")]
+
+
+def test_save_while_config_invalid_is_409(client, store, tmp_path):
+    (tmp_path / "homebackup.yaml").write_text("items: [")
+    client.post("/api/v1/config/check")
+    s = client.get("/api/v1/settings").json()
+    assert client.put("/api/v1/settings", json=s).status_code == 409

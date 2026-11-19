@@ -74,3 +74,22 @@ def test_retention_applied_after_a_run(store):
     store.cfg.config.settings.keep_runs = 3
     run(store, HA_CONFIG)
     assert store.history.query(HA_CONFIG, None, 100, 0)[1] == 3
+
+
+def test_a_command_that_cannot_start_fails_the_run_instead_of_hanging(store):
+    real = store.exec
+
+    async def broken(argv, on_line):
+        if argv[0] == "df":
+            raise FileNotFoundError("df")
+        return await real(argv, on_line)
+
+    store.exec = broken
+    r = run(store, HA_CONFIG)
+    assert r.status == "failure" and r.message.code == "step_failed"
+    assert store.runner.current is None and store.history.get(r.id).status == "failure"
+    assert real.calls[-1][0] == "umount"
+
+
+def test_runs_started_in_the_same_second_get_their_own_id(store):
+    assert run(store, HA_CONFIG).id != run(store, HA_CONFIG, "dry_run").id

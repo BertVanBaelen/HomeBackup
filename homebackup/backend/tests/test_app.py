@@ -8,7 +8,8 @@ def test_spa_and_assets_served_relative(tmp_path, store):
     (tmp_path / "ui" / "index.html").write_text("<html>hb</html>")
     (tmp_path / "ui" / "assets" / "app.js").write_text("console.log(1)")
     client = TestClient(create_app(static_dir=tmp_path / "ui", store=store, extra_clients=("testclient",)))
-    assert client.get("/").text == "<html>hb</html>"
+    page = client.get("/")
+    assert page.text == "<html>hb</html>" and page.headers["cache-control"] == "no-cache"
     assert client.get("/assets/app.js").status_code == 200
 
 

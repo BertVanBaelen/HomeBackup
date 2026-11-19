@@ -10,6 +10,10 @@ from pydantic import BaseModel, ValidationError
 from .models import Item, Settings, Target
 
 
+class ConfigInvalid(Exception):
+    """The file on disk is invalid: saving would overwrite the user's hand edits."""
+
+
 class Config(BaseModel):
     version: int = 1
     settings: Settings = Settings()
@@ -43,6 +47,8 @@ class ConfigFile:
         return True
 
     def save(self):
+        if self.error:
+            raise ConfigInvalid(self.error)
         _check_refs(self.config)
         self.path.parent.mkdir(parents=True, exist_ok=True)
         data = self.config.model_dump(mode="json", exclude={"settings": {"time_zone"}})

@@ -25,7 +25,7 @@ def idle(c):
 
 
 with client(rsync_seconds=0, start_running=False) as c:
-    json.dump(c.app.openapi(), open(FE / "api" / "openapi.json", "w"), indent=1)
+    (FE / "api" / "openapi.json").write_text(json.dumps(c.app.openapi(), indent=1))
     c.post("/api/v1/items/it5/run")
     idle(c)
     manual = c.get("/api/v1/runs", params={"item_id": "it5"}).json()["runs"][0]["id"]
@@ -50,5 +50,5 @@ with client(rsync_seconds=120) as c:  # music-to-nas is copying: the dashboard's
         out[p] = c.get(f"/api/v1/{p}").json()
     out["_running_run_id"] = running
 
-json.dump(out, open(FE / "test" / "api-sample.json", "w"), indent=1)
+(FE / "test" / "api-sample.json").write_text(json.dumps(out, indent=1))
 print("sample keys:", sorted(out))

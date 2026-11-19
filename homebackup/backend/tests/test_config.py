@@ -37,3 +37,14 @@ def test_invalid_file_keeps_last_good_config(tmp_path, store):
     assert not store.reload_config().valid
     path.write_text(good)
     assert store.reload_config().valid
+
+
+def test_ui_save_refused_while_the_file_on_disk_is_invalid(tmp_path, store):
+    import pytest
+
+    from homebackup.config import ConfigInvalid
+    (tmp_path / "homebackup.yaml").write_text("items: [")
+    store.reload_config()
+    with pytest.raises(ConfigInvalid):
+        store.save_settings(store.settings)
+    assert (tmp_path / "homebackup.yaml").read_text() == "items: ["  # the user's edit is untouched

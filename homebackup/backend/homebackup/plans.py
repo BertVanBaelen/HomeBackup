@@ -2,6 +2,7 @@
 
 import importlib.util
 import json
+import posixpath
 from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
@@ -87,7 +88,7 @@ def build_plan(item: Item, target: Target, types: dict[str, LoadedType], mount_r
         argv = [str(a) for a in s.get("argv", [])]
         if argv and argv[0] not in ALLOWED:
             return Plan(steps=[], programs=list(ALLOWED), error=Message(code="program_not_allowed", params={"program": argv[0]}))
-        if argv and argv[0] == "rsync" and not argv[-1].startswith(mp + "/"):
+        if argv and argv[0] == "rsync" and not posixpath.normpath(argv[-1]).startswith(mp + "/"):
             # the only place rsync may write to is the mounted target
             return Plan(steps=[], programs=list(ALLOWED), error=Message(code="destination_outside_target"))
         steps.append(Step(n=n, origin=o, title=Message(**title), why=Message(**why) if why else None,

@@ -112,7 +112,7 @@ function RunningCard({ p, item, route, status }: { p: Progress; item: ItemView; 
       <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
         <span className="font-heading text-[56px] leading-none font-semibold tracking-[-0.03em] tabular-nums">{pct}%</span>
         <span className="text-[#e3f4e8]">
-          {t('dashboard.progress_detail', {
+          {p.bytes_total === 0 ? t('dashboard.preparing') : t('dashboard.progress_detail', {
             done: bytes(p.bytes_done), total: bytes(p.bytes_total), speed: bytes(p.speed), eta: duration(p.eta_s),
           })}
         </span>

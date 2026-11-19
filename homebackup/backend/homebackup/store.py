@@ -237,9 +237,10 @@ class Store:
 
     async def test_target(self, t: TargetIn) -> TargetTest:
         """Find, mount read/write, write a probe file, check free space, and always unmount."""
-        probe = Target(**t.model_dump(exclude={"password", "id"}), id=t.id or f"test-{uuid.uuid4().hex[:6]}")
-        temp_cred = bool(t.password) or not self.cfg.has_password(probe.id)
-        if t.password:  # an unsaved password goes in a temporary credentials file
+        # a typed (unsaved) password goes in a temporary credentials file, never over the saved one
+        temp = bool(t.password) or not t.id
+        probe = Target(**t.model_dump(exclude={"password", "id"}), id=f"test-{uuid.uuid4().hex[:6]}" if temp else t.id)
+        if t.password:
             self.cfg.set_password(probe, t.password)
         mp = mountpoint(self.mount_root, probe)
         sink: list[str] = []
@@ -271,7 +272,7 @@ class Store:
         finally:
             if mounted:
                 await self.exec(["umount", mp], sink.append)
-            if t.password and temp_cred and not t.id:
+            if temp:
                 self.cfg.delete_password(probe.id)
 
     def plan_for_target(self, item: Item, target: Target) -> Plan:

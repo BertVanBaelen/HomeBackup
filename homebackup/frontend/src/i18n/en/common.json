@@ -127,7 +127,8 @@
     "runs_f": "{{count}} failed",
     "copied": "{{size}}",
     "keep_holding": "Keep holding",
-    "disabled": "Disabled"
+    "disabled": "Disabled",
+    "preparing": "Preparing: finding and mounting the target…"
   },
   "history": {
     "title": "History",

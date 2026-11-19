@@ -4,10 +4,11 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import APIRouter, FastAPI, HTTPException, Query, Request, Response
-from fastapi.responses import PlainTextResponse, StreamingResponse
+from fastapi.responses import JSONResponse, PlainTextResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
+from .config import ConfigInvalid
 from .models import (
     BackupType,
     ConfigStatus,
@@ -235,7 +236,14 @@ def create_app(static_dir: Path | None = None, store: Store | None = None,
         # No auth of our own: only HA's Ingress proxy (and localhost for dev) may talk to us.
         if request.client is None or request.client.host not in allowed:
             return PlainTextResponse("Forbidden", status_code=403)
-        return await call_next(request)
+        response = await call_next(request)
+        if request.url.path in ("/", "/index.html"):
+            response.headers["Cache-Control"] = "no-cache"  # assets are hashed; the page must pick up add-on updates
+        return response
+
+    @app.exception_handler(ConfigInvalid)
+    async def config_invalid(_: Request, e: ConfigInvalid):
+        return JSONResponse({"detail": {"code": "config_invalid", "error": str(e)}}, status_code=409)
 
     app.include_router(build_api(store))
     if static_dir:

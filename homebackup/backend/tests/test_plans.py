@@ -69,3 +69,12 @@ def test_broken_type_is_listed_with_its_error(tmp_path):
     (tmp_path / "broken" / "plan.py").write_text("def (:")
     t = load_types([(tmp_path, False)])["broken"]
     assert t.steps is None and "SyntaxError" in t.meta.error
+
+
+def test_target_path_cannot_escape_the_target():
+    import pydantic
+    import pytest
+    with pytest.raises(pydantic.ValidationError):
+        ITEM.model_validate({**ITEM.model_dump(), "target_path": "../../data"})
+    sneaky = ITEM.model_copy(update={"target_path": "a/../../../data"})  # bypasses validation, as a type could
+    assert plan(sneaky).error.code == "destination_outside_target"

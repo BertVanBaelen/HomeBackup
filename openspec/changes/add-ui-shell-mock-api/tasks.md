@@ -1,6 +1,6 @@
 # Tasks
 
-Milestone 1a (base version) covers groups 1–4 and 6.1. Milestone 1b covers the rest.
+Milestone 1a (base version) covers groups 1–4 and 6.1. Milestone 1b (groups 5–7) is built on the real API in the add-real-backups change, so its fixture-only tasks here are superseded.
 
 
 ## 1. Repository and add-on scaffold

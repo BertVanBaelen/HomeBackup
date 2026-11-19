@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 Result = Literal["success", "warning", "failure", "running"]
 Trigger = Literal["scheduled", "manual", "dry_run"]
@@ -35,6 +35,13 @@ class Item(BaseModel):
     delete: bool = False
     schedule: str
     hooks: Hooks = Hooks()
+
+    @field_validator("target_path")
+    @classmethod
+    def stays_inside_target(cls, v: str) -> str:
+        if ".." in v.replace("\\", "/").split("/"):
+            raise ValueError("may not contain '..'")
+        return v
 
 
 class RunSummary(BaseModel):

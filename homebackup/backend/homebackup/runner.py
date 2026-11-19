@@ -2,6 +2,7 @@
 
 import asyncio
 import time
+import uuid
 from collections import deque
 from typing import TYPE_CHECKING
 
@@ -66,7 +67,7 @@ class Runner:
         target = s.targets[item.target_id]
         now = s.clock()
         plan = s.plan_for(item, dry_run=trigger == "dry_run")
-        run = RunDetail(id=f"{item.id}-{now:%Y%m%d%H%M%S}", item_id=item.id, trigger=trigger, status="running",
+        run = RunDetail(id=f"{item.id}-{now:%Y%m%d%H%M%S}-{uuid.uuid4().hex[:4]}", item_id=item.id, trigger=trigger, status="running",
                         started=now, steps=[StepResult(**st.model_dump()) for st in plan.steps])
         self.current, self.progress = run, Progress(run_id=run.id, percent=0, bytes_done=0, bytes_total=0,
                                                     speed=0, eta_s=0)
@@ -81,6 +82,7 @@ class Runner:
         device = None
         body, umount = (run.steps[:-1], run.steps[-1]) if run.steps else ([], None)
         self._cancellable = True
+        st = None
         try:
             for st in body:
                 if failure or st.skipped:
@@ -121,6 +123,9 @@ class Runner:
         except asyncio.CancelledError:
             failure = Message(code="cancelled")
             log("WARN", "Cancelled by the user")
+        except Exception as e:  # noqa: BLE001 - e.g. a program missing on the host: fail the run, never hang
+            failure = Message(code="step_failed", params={"step": st.n if st else 0, "exit_code": -1})
+            log("ERROR", f"{type(e).__name__}: {e}")
         finally:
             self._cancellable = False
             if umount and mounted:

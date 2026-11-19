@@ -5,9 +5,9 @@ HomeBackup is a Home Assistant add-on that copies HA data, Immich and media to U
 | Phase | Version | Theme | OpenSpec change(s) |
 |------:|---------|-------|--------------------|
 | 0 | — | Project setup and tooling | (no change: repo setup) |
-| 1 | 0.1.0 | UI on a fixture API | `add-ui-shell-mock-api` |
-| 2 | 0.2.0 | Real config and targets | `add-config-store`, `add-target-detection` |
-| 3 | 0.3.0 | Backup engine: plan and run | `add-plan-builder`, `add-runner` |
+| 1 | 0.1.0 | UI on a fixture API ✅ | `add-ui-shell-mock-api` |
+| 2 | 0.2.0 | Real config and targets ✅ | `add-real-backups` |
+| 3 | 0.3.0 | Backup engine: plan and run ✅ | `add-real-backups` |
 | 4 | 0.4.0 | Schedules, conflicts, hooks | `add-scheduler`, `add-hooks` |
 | 5 | 0.5.0 | Immich preset | `add-immich-type` |
 | 6 | 0.6.0 | HA integration and polish | `add-ha-entities`, `add-retention` |
@@ -17,7 +17,7 @@ HomeBackup is a Home Assistant add-on that copies HA data, Immich and media to U
 - Empty GitHub repo cloned, OpenSpec initialised, graphify, superpowers and ponytail installed.
 - UI design canvas reviewed. The first change is proposed and validated.
 
-## Phase 1: UI on a fixture API (0.1.0)
+## Phase 1: UI on a fixture API (0.1.0) ✅
 Goal: every screen of the design running inside HA, on realistic in-memory data.
 - Add-on scaffold (config, Dockerfile, icon/logo), FastAPI backend with versioned API and fixtures, React app shell (header, sections, theme and language from HA).
 - Screens: Dashboard, Item editor, Plan preview, Run details, History, Targets, Settings.
@@ -26,7 +26,7 @@ Goal: every screen of the design running inside HA, on realistic in-memory data.
 
 Milestone 1a, **base version**: scaffold, API, app shell, Dashboard and History. Milestone 1b: the remaining screens.
 
-## Phase 2: Real config and targets (0.2.0)
+## Phase 2: Real config and targets (0.2.0) ✅
 Goal: what the user edits is stored and real drives and shares are seen.
 - `ConfigStore`: items, targets and settings in `/addon_config/homebackup.yaml` (hand-editable, validated, atomic writes, schema version).
 - Secrets (share passwords) kept out of the YAML file, in the add-on's private `/data`.
@@ -34,12 +34,13 @@ Goal: what the user edits is stored and real drives and shares are seen.
 - Test target for real: find → mount rw → write probe → free space → unmount.
 - Add-on privileges: `SYS_ADMIN` and device access for mounting (decided), documented in DOCS.md with the reason.
 
-## Phase 3: Backup engine (0.3.0)
+## Phase 3: Backup engine (0.3.0) ✅
 Goal: a Generic rsync item runs for real, by hand.
 - Plan builder: core steps (find, mount, free-space check, … unmount) around type steps. Every command is an argv list from the allow-list (mount, umount, blkid, df, rsync, find).
 - Runner: one process at a time per target, live progress from `rsync --info=progress2`, exit code → Success/Warning/Failed, unmount always runs, cancel = SIGTERM then SIGKILL.
 - Dry run (`rsync --dry-run`), run log files under `/data/logs`, run history in SQLite under `/data`.
-- The dashboard, run details and history use real data. The fixture store remains for dev and tests.
+- The dashboard, run details and history use real data. The sample data lives on as demo mode (`HOMEBACKUP_DEMO=1`) for development, screenshots and tests.
+- Phases 2 and 3 were built together in one change (`add-real-backups`), and the remaining screens (milestone 1b) landed with them.
 
 ## Phase 4: Schedules, conflicts, hooks (0.4.0)
 Goal: unattended operation.

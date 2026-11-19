@@ -124,7 +124,8 @@
     "runs_f": "{{count}} mislukt",
     "copied": "{{size}}",
     "keep_holding": "Blijf ingedrukt houden",
-    "disabled": "Uitgeschakeld"
+    "disabled": "Uitgeschakeld",
+    "preparing": "Voorbereiden: doel zoeken en koppelen…"
   },
   "history": {
     "title": "Geschiedenis",
