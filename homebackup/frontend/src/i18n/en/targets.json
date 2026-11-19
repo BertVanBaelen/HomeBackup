@@ -18,7 +18,6 @@
     "edit": "Edit",
     "edit_name": "Edit {{name}}",
     "editing": "Editing",
-    "editor": "Edit target",
     "edit_title": "Edit target {{name}}",
     "new_title": "New target",
     "name": "Name",
@@ -68,6 +67,9 @@
     "used_note_one": "Used by 1 item. Remove it first.",
     "cancel": "Cancel",
     "save": "Save",
-    "saving": "Saving…"
+    "saving": "Saving…",
+    "sheet_hint": "Fill it in, test it, then save.",
+    "empty_title": "No targets yet",
+    "empty_body": "Add a USB drive or a network share first. Every backup item writes to a target."
   }
 }

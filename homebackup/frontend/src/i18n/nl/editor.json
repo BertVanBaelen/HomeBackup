@@ -41,7 +41,6 @@
     "safe": "Veilig · er wordt niets verwijderd",
     "mirror": "Spiegel · verwijdert op het doel",
     "schedule": "Planning",
-    "cron": "Cron-expressie",
     "tz_note": "De tijdzone volgt Home Assistant.",
     "next_runs": "Volgende 5 runs",
     "hooks": "Als het klaar is",

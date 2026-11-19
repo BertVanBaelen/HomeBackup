@@ -7,7 +7,10 @@ import {
   fieldErrors, useDeleteItem, useDryRun, useItem, useItemCheck, useSaveItem, useScripts, useSettings, useStatus,
   useTargets, useTypes,
 } from '@/api/client'
+import { SourceField } from '@/components/hb/FolderPicker'
 import { HoldConfirm } from '@/components/hb/HoldConfirm'
+import { SchedulePicker } from '@/components/hb/SchedulePicker'
+import { Select } from '@/components/hb/Select'
 import { StatusIcon } from '@/components/hb/Status'
 import i18n from '@/i18n'
 import { clock, scheduleText } from '@/lib/format'
@@ -18,14 +21,13 @@ const pill = 'inline-flex min-h-11 items-center justify-center gap-2 rounded-ful
 const section = 'flex flex-col gap-4 rounded-2xl border border-line bg-panel p-6'
 const h2 = 'm-0 font-heading text-lg font-semibold'
 const input = 'min-h-11 w-full rounded-[10px] border border-field-line bg-field px-3 text-foreground'
-const select = 'min-h-11 w-full rounded-[10px] border border-field-line bg-field px-2.5 text-foreground'
 const mono = 'font-mono text-[13.5px]'
 const hint = 'text-[13px] text-faint'
+const err = 'text-[13px] text-fail'
 const cardGrid = 'grid grid-cols-[repeat(auto-fit,minmax(min(170px,100%),1fr))] gap-3'
 const LEVEL: Record<string, Result> = { ok: 'success', warning: 'warning', error: 'failure' }
 const FS: Record<string, string> = { exfat: 'exFAT', ntfs: 'NTFS', vfat: 'FAT32' }
 const HOOKS = [['on_success', 'hook_success'], ['on_warning', 'hook_warning'], ['on_failure', 'hook_failure']] as const
-const DEFAULT = '*' // select value for "use the default from Settings" (null in the API)
 
 export function ItemEditor() {
   const { t } = useTranslation()
@@ -56,7 +58,9 @@ function Editor({ initial, types, targets, settings, scripts }: {
     const h = setTimeout(() => setChecked(form), 400)
     return () => clearTimeout(h)
   }, [form])
-  const check = useItemCheck(checked).data
+  // the check endpoint validates like Save does: only ask once the required fields are filled in
+  const complete = !!checked.name.trim() && checked.source.startsWith('/') && !!checked.target_path.trim() && !!checked.target_id
+  const check = useItemCheck(complete ? checked : undefined).data
   const tz = useStatus().data?.time_zone ?? settings.time_zone
   const save = useSaveItem()
   const del = useDeleteItem()
@@ -143,15 +147,14 @@ function Editor({ initial, types, targets, settings, scripts }: {
 
           <section aria-labelledby="ed-copy" className={section}>
             <h2 id="ed-copy" className={h2}>{t('editor.copy')}</h2>
-            <Field id="ed-source" label={t('editor.source')} hint={t('editor.source_hint')} error={errors.source}>
-              <input type="text" value={form.source} onChange={(e) => set({ source: e.target.value })} className={cn(input, mono)} {...describe('source')} />
-            </Field>
+            <SourceField label={t('editor.source')} hint={t('editor.source_hint')} error={errors.source}
+              value={form.source} onChange={(source) => set({ source })} />
             <div className="grid grid-cols-[repeat(auto-fit,minmax(min(200px,100%),1fr))] gap-4">
-              <Field id="ed-target_id" label={t('editor.target')} error={errors.target_id}>
-                <select value={form.target_id} onChange={(e) => set({ target_id: e.target.value })} className={select} {...describe('target_id')}>
-                  {targets.map((x) => <option key={x.id} value={x.id}>{targetLabel(x)}</option>)}
-                </select>
-              </Field>
+              <div className="flex min-w-0 flex-col gap-1.5">
+                <Select id="ed-target_id" label={t('editor.target')} value={form.target_id} invalid={!!errors.target_id}
+                  onChange={(v) => set({ target_id: v ?? '' })} options={targets.map((x) => ({ value: x.id, label: targetLabel(x) }))} />
+                {errors.target_id && <span className={err}>{errors.target_id}</span>}
+              </div>
               <Field id="ed-target_path" label={t('editor.target_path')} error={errors.target_path}>
                 <input type="text" value={form.target_path} onChange={(e) => set({ target_path: e.target.value })} className={cn(input, mono)} {...describe('target_path')} />
               </Field>
@@ -174,14 +177,9 @@ function Editor({ initial, types, targets, settings, scripts }: {
                       <input type="number" min={1} value={form.window ?? ''} className={cn(input, 'w-22')} {...describe('window')}
                         onChange={(e) => set({ window: e.target.value ? Number(e.target.value) : null })} />
                     </Field>
-                    <label className="flex flex-col gap-1.5">
-                      <span className="sr-only">{t('editor.window_unit')}</span>
-                      <select value={form.window_unit ?? 'months'} className={select}
-                        onChange={(e) => set({ window_unit: e.target.value as Item['window_unit'] })}>
-                        <option value="months">{t('editor.unit.months')}</option>
-                        <option value="days">{t('editor.unit.days')}</option>
-                      </select>
-                    </label>
+                    <Select label={t('editor.window_unit')} hideLabel className="w-36" value={form.window_unit ?? 'months'}
+                      onChange={(v) => set({ window_unit: v as Item['window_unit'] })}
+                      options={(['months', 'days'] as const).map((u) => ({ value: u, label: t(`editor.unit.${u}`) }))} />
                     <span className="inline-flex min-h-11 items-center text-faint">{t('editor.back_from_today')}</span>
                   </div>
                 )}
@@ -218,9 +216,8 @@ function Editor({ initial, types, targets, settings, scripts }: {
           <section aria-labelledby="ed-schedule-h" className={section}>
             <h2 id="ed-schedule-h" className={h2}>{t('editor.schedule')}</h2>
             <div className="flex flex-col gap-1.5">
-              <Field id="ed-schedule" label={t('editor.cron')} error={errors.schedule}>
-                <input type="text" value={form.schedule} onChange={(e) => set({ schedule: e.target.value })} className={cn(input, mono)} {...describe('schedule')} />
-              </Field>
+              <SchedulePicker value={form.schedule} onChange={(schedule) => set({ schedule })} invalid={!!errors.schedule || !when} />
+              {errors.schedule && <span className={err}>{errors.schedule}</span>}
               <span className="text-soft">{when ? `${when} · ${tz}` : t('msg.cron_invalid')}</span>
               <span className={hint}>{t('editor.tz_note')}</span>
             </div>
@@ -246,14 +243,16 @@ function Editor({ initial, types, targets, settings, scripts }: {
             {HOOKS.map(([key, setting]) => {
               const v = form.hooks[key]
               return (
-                <Field key={key} id={`ed-${key}`} label={t(`editor.${key}`)} error={errors[key]}>
-                  <select id={`ed-${key}`} value={v ?? DEFAULT} className={select}
-                    onChange={(e) => set({ hooks: { ...form.hooks, [key]: e.target.value === DEFAULT ? null : e.target.value } })}>
-                    <option value={DEFAULT}>{t('editor.default', { script: settings[setting] || t('editor.none') })}</option>
-                    <option value="">{t('editor.none')}</option>
-                    {[...new Set([...scripts, ...(v ? [v] : [])])].map((s) => <option key={s} value={s}>{s}</option>)}
-                  </select>
-                </Field>
+                <div key={key} className="flex min-w-0 flex-col gap-1.5">
+                  <Select id={`ed-${key}`} label={t(`editor.${key}`)} value={v ?? null} invalid={!!errors[key]}
+                    onChange={(x) => set({ hooks: { ...form.hooks, [key]: x } })}
+                    options={[
+                      { value: null, label: t('editor.default', { script: settings[setting] || t('editor.none') }) },
+                      { value: '', label: t('editor.none') },
+                      ...[...new Set([...scripts, ...(v ? [v] : [])])].map((s) => ({ value: s, label: s })),
+                    ]} />
+                  {errors[key] && <span className={err}>{errors[key]}</span>}
+                </div>
               )
             })}
           </section>
@@ -323,10 +322,10 @@ function Editor({ initial, types, targets, settings, scripts }: {
 function Field({ id, label, hint: h, error, children }: { id: string; label: string; hint?: string; error?: string; children: ReactNode }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="font-semibold">{label}</label>
+      <label htmlFor={id} className="text-[13px] font-semibold text-soft">{label}</label>
       {children}
       {h && <span id={`${id}-hint`} className={hint}>{h}</span>}
-      {error && <span id={`${id}-err`} className="text-[13px] text-fail">{error}</span>}
+      {error && <span id={`${id}-err`} className={err}>{error}</span>}
     </div>
   )
 }

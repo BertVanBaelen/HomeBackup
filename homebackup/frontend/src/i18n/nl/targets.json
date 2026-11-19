@@ -18,7 +18,6 @@
     "edit": "Bewerken",
     "edit_name": "{{name}} bewerken",
     "editing": "Wordt bewerkt",
-    "editor": "Doel bewerken",
     "edit_title": "Doel {{name}} bewerken",
     "new_title": "Nieuw doel",
     "name": "Naam",
@@ -68,6 +67,9 @@
     "used_note_one": "Gebruikt door 1 item. Verwijder dat eerst.",
     "cancel": "Annuleren",
     "save": "Opslaan",
-    "saving": "Bezig met opslaan…"
+    "saving": "Bezig met opslaan…",
+    "sheet_hint": "Vul het in, test het en sla het dan op.",
+    "empty_title": "Nog geen doelen",
+    "empty_body": "Voeg eerst een USB-schijf of netwerkshare toe. Elk back-upitem schrijft naar een doel."
   }
 }

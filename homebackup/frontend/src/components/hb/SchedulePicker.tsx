@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type Schedule, parseCron, switchMode, toCron } from '@/lib/cron'
 import { cn } from '@/lib/utils'
@@ -9,7 +10,9 @@ const field = 'min-h-11 rounded-[10px] border border-field-line bg-field px-3 te
 /** Friendly schedule: radio buttons for the common shapes, raw cron only for "Custom". Emits a cron string. */
 export function SchedulePicker({ value, onChange, invalid }: { value: string; onChange: (cron: string) => void; invalid?: boolean }) {
   const { t } = useTranslation()
-  const s = parseCron(value)
+  // "Custom" is a choice, not just what the cron happens to look like: keep it until another radio is picked
+  const [custom, setCustom] = useState(false)
+  const s: Schedule = custom ? { mode: 'custom', cron: value } : parseCron(value)
   const set = (next: Schedule) => onChange(toCron(next))
 
   return (
@@ -23,7 +26,7 @@ export function SchedulePicker({ value, onChange, invalid }: { value: string; on
               s.mode === m ? 'border-brand bg-accent text-accent-foreground' : 'border-line bg-panel text-soft',
             )}>
               <input type="radio" name="schedule-mode" value={m} checked={s.mode === m} className="accent-brand"
-                onChange={() => set(switchMode(s, m))} />
+                onChange={() => { setCustom(m === 'custom'); set(switchMode(s, m)) }} />
               {t(`schedule.${m}`)}
             </label>
           ))}
@@ -74,13 +77,12 @@ export function SchedulePicker({ value, onChange, invalid }: { value: string; on
       )}
 
       {s.mode === 'custom' && (
-        <label className="flex flex-col gap-1.5">
-          <span className="text-[13px] font-semibold text-soft">{t('schedule.cron')}</span>
-          <input value={s.cron} aria-invalid={invalid || undefined} spellCheck={false}
-            onChange={(e) => onChange(e.target.value)}
-            className={cn(field, 'font-mono aria-invalid:border-fail')} />
-          <span className="text-[12.5px] text-faint">{t('schedule.cron_hint')}</span>
-        </label>
+        <div className="flex flex-col gap-1.5">
+          <label htmlFor="schedule-cron" className="text-[13px] font-semibold text-soft">{t('schedule.cron')}</label>
+          <input id="schedule-cron" value={s.cron} aria-invalid={invalid || undefined} aria-describedby="schedule-cron-hint"
+            spellCheck={false} onChange={(e) => onChange(e.target.value)} className={cn(field, 'font-mono aria-invalid:border-fail')} />
+          <span id="schedule-cron-hint" className="text-[12.5px] text-faint">{t('schedule.cron_hint')}</span>
+        </div>
       )}
     </div>
   )

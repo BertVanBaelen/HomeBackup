@@ -3,13 +3,14 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { type Result, type RunSummary, type Status, useItems, useRuns, useSettings, useStatus } from '@/api/client'
+import { Segmented } from '@/components/hb/Segmented'
+import { Select } from '@/components/hb/Select'
 import { StatusPill } from '@/components/hb/Status'
 import { bytes, dayLabel, duration, number } from '@/lib/format'
 import { msg } from '@/lib/messages'
-import { cn } from '@/lib/utils'
 
 const PAGE = 12
-const FILTERS = [undefined, 'success', 'warning', 'failure', 'running'] as const
+const FILTERS = ['all', 'success', 'warning', 'failure', 'running'] as const
 const GRID = 'grid-cols-[136px_minmax(0,1fr)_140px_110px_150px_minmax(0,1.2fr)_20px] gap-4'
 
 export function History() {
@@ -37,28 +38,15 @@ export function History() {
       </div>
 
       <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
-        <label className="flex min-w-0 flex-[0_1_240px] flex-col gap-1">
-          <span className="sr-only">{t('history.item')}</span>
-          <select value={itemId ?? ''} onChange={(e) => { setItemId(e.target.value || undefined); setLimit(PAGE) }}
-            className="min-h-11 w-full rounded-[10px] border border-field-line bg-field px-2.5 text-foreground">
-            <option value="">{t('history.all_items')}</option>
-            {items.map((i) => <option key={i.id} value={i.id}>{i.name}</option>)}
-          </select>
-        </label>
-        <div role="group" aria-label={t('history.filter')}
-          className="flex max-w-full gap-1 overflow-x-auto rounded-full border border-line bg-panel p-1">
-          {FILTERS.map((f) => {
-            const on = f === result
-            return (
-              <button key={f ?? 'all'} type="button" aria-pressed={on} onClick={() => { setResult(f); setLimit(PAGE) }}
-                className={cn('min-h-11 shrink-0 rounded-full border-0 px-4 font-semibold',
-                  on ? 'bg-brand text-white' : 'bg-transparent text-soft')}>
-                {f ? t(`result.${f}`) : t('history.all')}{' '}
-                <span className="font-medium">{f ? page?.counts[f] ?? '' : all}</span>
-              </button>
-            )
-          })}
-        </div>
+        <Select label={t('history.item')} hideLabel value={itemId ?? null} className="flex-[0_1_240px]"
+          onChange={(v) => { setItemId(v ?? undefined); setLimit(PAGE) }}
+          options={[{ value: null, label: t('history.all_items') }, ...items.map((i) => ({ value: i.id, label: i.name }))]} />
+        <Segmented label={t('history.filter')} value={result ?? 'all'}
+          onChange={(f) => { setResult(f === 'all' ? undefined : f); setLimit(PAGE) }}
+          options={FILTERS.map((f) => ({
+            value: f,
+            label: `${f === 'all' ? t('history.all') : t(`result.${f}`)} ${f === 'all' ? all : page?.counts[f] ?? ''}`.trim(),
+          }))} />
       </div>
 
       <div className="overflow-hidden rounded-2xl border border-line bg-panel">

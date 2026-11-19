@@ -4,6 +4,8 @@ import {
   type Settings as SettingsT, fieldErrors, useCheckConfig, useConfigStatus, useRefreshTypes, useSaveSettings,
   useScripts, useSettings, useTypes,
 } from '@/api/client'
+import { Segmented } from '@/components/hb/Segmented'
+import { Select } from '@/components/hb/Select'
 import { StatusIcon } from '@/components/hb/Status'
 import { cn } from '@/lib/utils'
 
@@ -43,18 +45,15 @@ export function Settings() {
         <div className="flex min-w-0 flex-[1_1_340px] flex-col gap-4">
           <Section id="set-hooks" title={t('settings.hooks')} hint={t('settings.hooks_hint')}>
             {HOOKS.map((k) => {
-              const v = form[k] ?? ''
+              const v = form[k] ?? null
               // Keep a saved script selectable even when HA no longer lists it.
               const options = v && !scripts.includes(v) ? [v, ...scripts] : scripts
               return (
-                <label key={k} className="flex flex-col gap-1.5">
-                  <span className="font-semibold">{t(`settings.${k}`)}</span>
-                  <select value={v} onChange={(e) => set({ [k]: e.target.value || null })} className={FIELD}>
-                    <option value="">{t('settings.none')}</option>
-                    {options.map((s) => <option key={s} value={s}>{s}</option>)}
-                  </select>
+                <div key={k} className="flex flex-col gap-1.5">
+                  <Select label={t(`settings.${k}`)} value={v} onChange={(x) => set({ [k]: x || null })} invalid={!!errs[k]}
+                    options={[{ value: null, label: t('settings.none') }, ...options.map((s) => ({ value: s, label: s }))]} />
                   <Err msg={errs[k]} />
-                </label>
+                </div>
               )
             })}
           </Section>
@@ -88,16 +87,8 @@ export function Settings() {
           <Section id="set-lang" title={t('settings.lang_time')}>
             <div className="flex flex-col gap-1.5">
               <span className="font-semibold">{t('settings.language')}</span>
-              <div role="group" aria-label={t('settings.language')}
-                className="flex max-w-full gap-1 self-start overflow-x-auto rounded-full bg-panel2 p-1">
-                {LANGS.map((l) => (
-                  <button key={l} type="button" aria-pressed={form.language === l} onClick={() => set({ language: l })}
-                    className={cn('min-h-11 shrink-0 rounded-full border-0 px-4 font-semibold',
-                      form.language === l ? 'bg-brand text-white' : 'bg-transparent text-soft')}>
-                    {t(`settings.lang_${l}`)}
-                  </button>
-                ))}
-              </div>
+              <Segmented label={t('settings.language')} value={form.language} onChange={(l) => set({ language: l })}
+                options={LANGS.map((l) => ({ value: l, label: t(`settings.lang_${l}`) }))} />
             </div>
             <div className="flex flex-col gap-1">
               <span className="font-semibold">{t('settings.time_zone')}</span>
@@ -107,14 +98,12 @@ export function Settings() {
           </Section>
 
           <Section id="set-log" title={t('settings.logging')} hint={t('settings.logging_hint')}>
-            <label className="flex flex-col gap-1.5">
-              <span className="font-semibold">{t('settings.log_level')}</span>
-              <select value={form.log_level} onChange={(e) => set({ log_level: e.target.value as SettingsT['log_level'] })}
-                className={cn(FIELD, 'px-2.5')}>
-                {LEVELS.map((l) => <option key={l} value={l}>{t(`settings.level_${l}`)}</option>)}
-              </select>
+            <div className="flex flex-col gap-1.5">
+              <Select label={t('settings.log_level')} value={form.log_level} invalid={!!errs.log_level}
+                onChange={(l) => set({ log_level: l as SettingsT['log_level'] })}
+                options={LEVELS.map((l) => ({ value: l, label: t(`settings.level_${l}`) }))} />
               <Err msg={errs.log_level} />
-            </label>
+            </div>
           </Section>
 
           <Section id="set-cfg" title={t('settings.config')} hint={t('settings.config_hint')}>

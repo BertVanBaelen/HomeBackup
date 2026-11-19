@@ -1,5 +1,5 @@
 import { ChevronRight, File, Folder, FolderOpen } from 'lucide-react'
-import { useState } from 'react'
+import { useId, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type Entry, useBrowse } from '@/api/client'
 import { bytes } from '@/lib/format'
@@ -68,18 +68,21 @@ export function SourceField({ label, hint, value, onChange, error }: {
   const { t } = useTranslation()
   const [open, setOpen] = useState(false)
   const [pick, setPick] = useState(value)
+  const id = useId()
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor="source-field" className="text-[13px] font-semibold text-soft">{label}</label>
+      <label htmlFor={id} className="text-[13px] font-semibold text-soft">{label}</label>
       <div className="flex gap-2">
-        <input id="source-field" value={value} onChange={(e) => onChange(e.target.value)} aria-invalid={!!error || undefined}
+        <input id={id} value={value} onChange={(e) => onChange(e.target.value)} aria-invalid={!!error || undefined}
+          aria-describedby={error || hint ? `${id}-note` : undefined}
           className="min-h-11 min-w-0 flex-1 rounded-[10px] border border-field-line bg-field px-3 font-mono text-[13px] text-foreground aria-invalid:border-fail" />
         <button type="button" onClick={() => { setPick(value); setOpen(true) }}
           className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border border-line2 bg-transparent px-4 font-semibold text-foreground">
           <FolderOpen aria-hidden className="size-4" />{t('picker.browse')}
         </button>
       </div>
-      {error ? <span className="text-[12.5px] text-fail">{error}</span> : hint && <span className="text-[12.5px] text-faint">{hint}</span>}
+      {error ? <span id={`${id}-note`} className="text-[12.5px] text-fail">{error}</span>
+        : hint && <span id={`${id}-note`} className="text-[12.5px] text-faint">{hint}</span>}
       <Sheet open={open} onOpenChange={setOpen} title={t('picker.title')} description={t('picker.description')}
         footer={
           <div className="flex flex-wrap items-center justify-between gap-3">

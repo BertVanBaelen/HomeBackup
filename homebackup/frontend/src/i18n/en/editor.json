@@ -41,7 +41,6 @@
     "safe": "Safe · nothing is deleted",
     "mirror": "Mirror · deletes on the target",
     "schedule": "Schedule",
-    "cron": "Cron expression",
     "tz_note": "The time zone follows Home Assistant.",
     "next_runs": "Next 5 runs",
     "hooks": "When it finishes",

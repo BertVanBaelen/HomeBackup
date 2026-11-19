@@ -7,6 +7,7 @@ import {
   useCancelRun, useItems, useRun, useStatus, useTypes,
 } from '@/api/client'
 import { HoldConfirm } from '@/components/hb/HoldConfirm'
+import { Segmented } from '@/components/hb/Segmented'
 import { FG, StatusPill } from '@/components/hb/Status'
 import i18n from '@/i18n'
 import { bytes, clock, duration, number } from '@/lib/format'
@@ -210,15 +211,10 @@ function Log({ log, tz }: { log: LogLine[]; tz: string }) {
       {log.length === 0 ? <p className="m-0 text-faint">{t('run.no_log')}</p> : (
         <>
           <div className="flex flex-wrap items-center gap-3">
-            <div role="group" aria-label={t('run.log_filter')} className="flex max-w-full gap-1 overflow-x-auto rounded-full bg-panel2 p-1">
-              {(Object.keys(FILTERS) as (keyof typeof FILTERS)[]).map((f) => (
-                <button key={f} type="button" aria-pressed={f === filter} onClick={() => setFilter(f)}
-                  className={cn('min-h-11 shrink-0 rounded-full border-0 px-4 font-semibold',
-                    f === filter ? 'bg-brand text-white' : 'bg-transparent text-soft')}>
-                  {t(`run.f_${f}`)} <span className="font-medium">{log.filter(FILTERS[f]).length}</span>
-                </button>
-              ))}
-            </div>
+            <Segmented label={t('run.log_filter')} value={filter} onChange={setFilter}
+              options={(Object.keys(FILTERS) as (keyof typeof FILTERS)[]).map((f) => ({
+                value: f, label: `${t(`run.f_${f}`)} ${log.filter(FILTERS[f]).length}`,
+              }))} />
             <label className="flex min-h-11 min-w-0 flex-[1_1_200px] items-center gap-2 rounded-[10px] border border-field-line bg-field px-3">
               <Search aria-hidden className="size-[18px] shrink-0 text-faint" />
               <span className="sr-only">{t('run.search')}</span>
