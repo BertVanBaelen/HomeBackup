@@ -1,0 +1,1095 @@
+{
+ "openapi": "3.1.0",
+ "info": {
+  "title": "HomeBackup",
+  "version": "0.1.0"
+ },
+ "paths": {
+  "/api/v1/status": {
+   "get": {
+    "summary": "Status",
+    "operationId": "status_api_v1_status_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Status"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/items": {
+   "get": {
+    "summary": "Items",
+    "operationId": "items_api_v1_items_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "$ref": "#/components/schemas/ItemView"
+         },
+         "type": "array",
+         "title": "Response Items Api V1 Items Get"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/runs": {
+   "get": {
+    "summary": "Runs",
+    "operationId": "runs_api_v1_runs_get",
+    "parameters": [
+     {
+      "name": "item_id",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Item Id"
+      }
+     },
+     {
+      "name": "status",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "enum": [
+          "success",
+          "warning",
+          "failure",
+          "running"
+         ],
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Status"
+      }
+     },
+     {
+      "name": "limit",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "maximum": 200,
+       "minimum": 1,
+       "default": 12,
+       "title": "Limit"
+      }
+     },
+     {
+      "name": "offset",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "minimum": 0,
+       "default": 0,
+       "title": "Offset"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/RunPage"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/runs/{run_id}": {
+   "get": {
+    "summary": "Run",
+    "operationId": "run_api_v1_runs__run_id__get",
+    "parameters": [
+     {
+      "name": "run_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Run Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/RunSummary"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/items/{item_id}/run": {
+   "post": {
+    "summary": "Run Now",
+    "operationId": "run_now_api_v1_items__item_id__run_post",
+    "parameters": [
+     {
+      "name": "item_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Item Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Status"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/runs/{run_id}/cancel": {
+   "post": {
+    "summary": "Cancel",
+    "operationId": "cancel_api_v1_runs__run_id__cancel_post",
+    "parameters": [
+     {
+      "name": "run_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Run Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/RunSummary"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/targets": {
+   "get": {
+    "summary": "Targets",
+    "operationId": "targets_api_v1_targets_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "$ref": "#/components/schemas/TargetView"
+         },
+         "type": "array",
+         "title": "Response Targets Api V1 Targets Get"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/settings": {
+   "get": {
+    "summary": "Settings",
+    "operationId": "settings_api_v1_settings_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Settings"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/events": {
+   "get": {
+    "summary": "Events",
+    "operationId": "events_api_v1_events_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response"
+     }
+    }
+   }
+  }
+ },
+ "components": {
+  "schemas": {
+   "Attention": {
+    "properties": {
+     "item_id": {
+      "type": "string",
+      "title": "Item Id"
+     },
+     "days_since_success": {
+      "type": "integer",
+      "title": "Days Since Success"
+     },
+     "last_run": {
+      "$ref": "#/components/schemas/RunSummary"
+     }
+    },
+    "type": "object",
+    "required": [
+     "item_id",
+     "days_since_success",
+     "last_run"
+    ],
+    "title": "Attention"
+   },
+   "HTTPValidationError": {
+    "properties": {
+     "detail": {
+      "items": {
+       "$ref": "#/components/schemas/ValidationError"
+      },
+      "type": "array",
+      "title": "Detail"
+     }
+    },
+    "type": "object",
+    "title": "HTTPValidationError"
+   },
+   "Hooks": {
+    "properties": {
+     "on_success": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "On Success"
+     },
+     "on_warning": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "On Warning"
+     },
+     "on_failure": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "On Failure"
+     }
+    },
+    "type": "object",
+    "title": "Hooks"
+   },
+   "ItemView": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "enabled": {
+      "type": "boolean",
+      "title": "Enabled",
+      "default": true
+     },
+     "type": {
+      "type": "string",
+      "enum": [
+       "rsync",
+       "immich"
+      ],
+      "title": "Type"
+     },
+     "source": {
+      "type": "string",
+      "title": "Source"
+     },
+     "target_id": {
+      "type": "string",
+      "title": "Target Id"
+     },
+     "target_path": {
+      "type": "string",
+      "title": "Target Path"
+     },
+     "immich_mode": {
+      "anyOf": [
+       {
+        "type": "string",
+        "enum": [
+         "recent",
+         "full"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Immich Mode"
+     },
+     "window": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Window"
+     },
+     "window_unit": {
+      "anyOf": [
+       {
+        "type": "string",
+        "enum": [
+         "months",
+         "days"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Window Unit"
+     },
+     "include_thumbs": {
+      "type": "boolean",
+      "title": "Include Thumbs",
+      "default": false
+     },
+     "delete": {
+      "type": "boolean",
+      "title": "Delete",
+      "default": false
+     },
+     "schedule": {
+      "type": "string",
+      "title": "Schedule"
+     },
+     "hooks": {
+      "$ref": "#/components/schemas/Hooks",
+      "default": {}
+     },
+     "next_run": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date-time"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Next Run"
+     },
+     "last_run": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/RunSummary"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "recent": {
+      "items": {
+       "type": "string",
+       "enum": [
+        "success",
+        "warning",
+        "failure",
+        "running"
+       ]
+      },
+      "type": "array",
+      "title": "Recent"
+     },
+     "last_success": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date-time"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Last Success"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "name",
+     "type",
+     "source",
+     "target_id",
+     "target_path",
+     "schedule",
+     "next_run",
+     "last_run",
+     "recent",
+     "last_success"
+    ],
+    "title": "ItemView"
+   },
+   "Message": {
+    "properties": {
+     "code": {
+      "type": "string",
+      "title": "Code"
+     },
+     "params": {
+      "additionalProperties": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "integer"
+        }
+       ]
+      },
+      "type": "object",
+      "title": "Params",
+      "default": {}
+     }
+    },
+    "type": "object",
+    "required": [
+     "code"
+    ],
+    "title": "Message",
+    "description": "Language-neutral message: the UI translates `code` and fills in `params`."
+   },
+   "Progress": {
+    "properties": {
+     "run_id": {
+      "type": "string",
+      "title": "Run Id"
+     },
+     "percent": {
+      "type": "number",
+      "title": "Percent"
+     },
+     "bytes_done": {
+      "type": "integer",
+      "title": "Bytes Done"
+     },
+     "bytes_total": {
+      "type": "integer",
+      "title": "Bytes Total"
+     },
+     "speed": {
+      "type": "integer",
+      "title": "Speed"
+     },
+     "eta_s": {
+      "type": "integer",
+      "title": "Eta S"
+     }
+    },
+    "type": "object",
+    "required": [
+     "run_id",
+     "percent",
+     "bytes_done",
+     "bytes_total",
+     "speed",
+     "eta_s"
+    ],
+    "title": "Progress"
+   },
+   "RunPage": {
+    "properties": {
+     "runs": {
+      "items": {
+       "$ref": "#/components/schemas/RunSummary"
+      },
+      "type": "array",
+      "title": "Runs"
+     },
+     "total": {
+      "type": "integer",
+      "title": "Total"
+     },
+     "counts": {
+      "additionalProperties": {
+       "type": "integer"
+      },
+      "type": "object",
+      "title": "Counts"
+     }
+    },
+    "type": "object",
+    "required": [
+     "runs",
+     "total",
+     "counts"
+    ],
+    "title": "RunPage"
+   },
+   "RunSummary": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "item_id": {
+      "type": "string",
+      "title": "Item Id"
+     },
+     "trigger": {
+      "type": "string",
+      "enum": [
+       "scheduled",
+       "manual",
+       "dry_run"
+      ],
+      "title": "Trigger"
+     },
+     "status": {
+      "type": "string",
+      "enum": [
+       "success",
+       "warning",
+       "failure",
+       "running"
+      ],
+      "title": "Status"
+     },
+     "started": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Started"
+     },
+     "ended": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date-time"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Ended"
+     },
+     "files": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Files"
+     },
+     "bytes": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Bytes"
+     },
+     "deleted": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Deleted"
+     },
+     "exit_code": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Exit Code"
+     },
+     "message": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/Message"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "item_id",
+     "trigger",
+     "status",
+     "started"
+    ],
+    "title": "RunSummary"
+   },
+   "Settings": {
+    "properties": {
+     "hook_success": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Hook Success"
+     },
+     "hook_warning": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Hook Warning"
+     },
+     "hook_failure": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Hook Failure"
+     },
+     "overdue_days": {
+      "type": "integer",
+      "title": "Overdue Days",
+      "default": 7
+     },
+     "keep_runs": {
+      "type": "integer",
+      "title": "Keep Runs",
+      "default": 30
+     },
+     "keep_days": {
+      "type": "integer",
+      "title": "Keep Days",
+      "default": 90
+     },
+     "language": {
+      "type": "string",
+      "enum": [
+       "auto",
+       "en",
+       "nl"
+      ],
+      "title": "Language",
+      "default": "auto"
+     },
+     "time_zone": {
+      "type": "string",
+      "title": "Time Zone",
+      "default": "Europe/Brussels"
+     },
+     "log_level": {
+      "type": "string",
+      "enum": [
+       "info",
+       "warning",
+       "debug"
+      ],
+      "title": "Log Level",
+      "default": "info"
+     }
+    },
+    "type": "object",
+    "title": "Settings"
+   },
+   "Status": {
+    "properties": {
+     "now": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Now"
+     },
+     "time_zone": {
+      "type": "string",
+      "title": "Time Zone"
+     },
+     "queue": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Queue"
+     },
+     "running": {
+      "items": {
+       "$ref": "#/components/schemas/Progress"
+      },
+      "type": "array",
+      "title": "Running"
+     },
+     "attention": {
+      "items": {
+       "$ref": "#/components/schemas/Attention"
+      },
+      "type": "array",
+      "title": "Attention"
+     }
+    },
+    "type": "object",
+    "required": [
+     "now",
+     "time_zone",
+     "queue",
+     "running",
+     "attention"
+    ],
+    "title": "Status"
+   },
+   "TargetStatus": {
+    "properties": {
+     "ok": {
+      "type": "boolean",
+      "title": "Ok"
+     },
+     "problem": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/Message"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "device": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Device"
+     },
+     "free_bytes": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Free Bytes"
+     }
+    },
+    "type": "object",
+    "required": [
+     "ok"
+    ],
+    "title": "TargetStatus"
+   },
+   "TargetView": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "kind": {
+      "type": "string",
+      "enum": [
+       "drive",
+       "share"
+      ],
+      "title": "Kind"
+     },
+     "filesystem": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Filesystem"
+     },
+     "find_by": {
+      "anyOf": [
+       {
+        "type": "string",
+        "enum": [
+         "uuid",
+         "label"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Find By"
+     },
+     "ident": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Ident"
+     },
+     "protocol": {
+      "anyOf": [
+       {
+        "type": "string",
+        "enum": [
+         "smb",
+         "nfs"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Protocol"
+     },
+     "host": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Host"
+     },
+     "share": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Share"
+     },
+     "username": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Username"
+     },
+     "password_set": {
+      "type": "boolean",
+      "title": "Password Set",
+      "default": false
+     },
+     "mount_options": {
+      "type": "string",
+      "title": "Mount Options",
+      "default": ""
+     },
+     "rsync_flags": {
+      "type": "string",
+      "title": "Rsync Flags"
+     },
+     "min_free_bytes": {
+      "type": "integer",
+      "title": "Min Free Bytes"
+     },
+     "status": {
+      "$ref": "#/components/schemas/TargetStatus"
+     },
+     "used_by": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Used By"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "name",
+     "kind",
+     "rsync_flags",
+     "min_free_bytes",
+     "status",
+     "used_by"
+    ],
+    "title": "TargetView"
+   },
+   "ValidationError": {
+    "properties": {
+     "loc": {
+      "items": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "integer"
+        }
+       ]
+      },
+      "type": "array",
+      "title": "Location"
+     },
+     "msg": {
+      "type": "string",
+      "title": "Message"
+     },
+     "type": {
+      "type": "string",
+      "title": "Error Type"
+     }
+    },
+    "type": "object",
+    "required": [
+     "loc",
+     "msg",
+     "type"
+    ],
+    "title": "ValidationError"
+   }
+  }
+ }
+}

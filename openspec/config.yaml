@@ -1,0 +1,41 @@
+schema: spec-driven
+
+context: |
+  HomeBackup is a Home Assistant add-on (rsync-based backups of HA data, Immich and media to USB drives and SMB/NFS shares).
+  It is opened only through HA Ingress (sidebar panel / Open Web UI), so the app has no auth of its own and must work under the Ingress base path.
+  Stack: Python 3.12 backend (FastAPI), React + TypeScript + Vite frontend, Tailwind + shadcn/ui with the Kokonut UI registry.
+  UI source of truth: the HomeBackup UI design canvas (Dashboard, Item editor, Plan preview, Run details, History, Targets, Settings, Logo).
+  Theme follows HA light/dark; UI ships in English and Dutch.
+  Commands are executed as argument lists, never through a shell; allowed programs: mount, umount, blkid, df, rsync, find. Sources are read-only.
+  Nothing leaves the HA host: no telemetry, no outside requests at runtime (fonts and assets are bundled).
+
+# Project context (optional)
+# Add only constraints that should guide OpenSpec artifacts and workflows.
+# Include constraints an agent cannot infer by reading the code.
+# Keep general project documentation and discoverable codebase facts out.
+# Example:
+#   context: |
+#     Designs and tasks must cover Windows, macOS, and Linux
+#     Write all artifacts in Spanish
+
+# Per-artifact rules (optional)
+# Add custom rules for specific artifacts.
+# Example:
+#   rules:
+#     proposal:
+#       - Keep proposals under 500 words
+#       - Always state what is out of scope
+#     tasks:
+#       - Break tasks into chunks of max 2 hours
+
+# Per-operation guidance (optional)
+# Add advisory guidance for how apply and archive work should be conducted.
+# This is separate from artifact rules above.
+# Example:
+#   operations:
+#     apply:
+#       guidance:
+#         - Keep test summaries concise
+#     archive:
+#       guidance:
+#         - Summarize the archive outcome before finishing

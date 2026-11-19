@@ -1,0 +1,40 @@
+{
+  "nav": { "label": "HomeBackup-onderdelen", "dashboard": "Overzicht", "history": "Geschiedenis", "targets": "Doelen", "settings": "Instellingen" },
+  "day": { "today": "Vandaag", "yesterday": "Gisteren", "tomorrow": "Morgen" },
+  "dur": { "s": "{{n}} s", "min": "{{n}} min", "h_min": "{{h}} u {{m}} min" },
+  "sched": { "daily": "Dagelijks om {{time}}", "weekly": "{{day}} om {{time}}", "monthly": "{{day}} van de maand, {{time}}" },
+  "weekdays": { "0": "Zondags", "1": "Maandags", "2": "Dinsdags", "3": "Woensdags", "4": "Donderdags", "5": "Vrijdags", "6": "Zaterdags" },
+  "ordinal_ordinal_other": "{{count}}e",
+  "result": { "success": "Gelukt", "warning": "Waarschuwing", "failure": "Mislukt", "running": "Bezig" },
+  "trigger": { "scheduled": "Gepland", "manual": "Handmatig", "dry_run": "Proefrun" },
+  "kind": { "rsync": "rsync · volledig", "immich_full": "Immich · volledig", "immich_recent": "Immich · recent {{n}} {{unit}}" },
+  "unit_short": { "months": "mnd", "days": "d" },
+  "msg": {
+    "cancelled": "Door jou gestopt", "target_not_found": "Schijf {{target}} (label {{label}}) niet gevonden",
+    "target_not_found_short": "Schijf {{target}} niet gevonden",
+    "rsync_vanished": "Exit {{exit_code}}: {{count}} bestanden verdwenen tijdens het kopiëren",
+    "rsync_vanished_short": "Exit {{exit_code}} · {{count}} bestanden verdwenen",
+    "drive_not_found": "Niet gevonden. Sluit de schijf aan."
+  },
+  "dashboard": {
+    "queued": "In wachtrij", "queued_n": "{{count}} in wachtrij", "running_now": "Nu bezig", "started": "Gestart {{time}}", "progress_label": "Voortgang van {{name}}",
+    "progress_detail": "{{done}} van {{total}} · {{speed}}/s · nog ongeveer {{eta}}",
+    "live_log": "Live log", "cancel": "Stoppen", "hold_cancel": "Ingedrukt houden om te stoppen", "cancelled": "Gestopt",
+    "attention": "Aandacht nodig", "no_success": "Al {{count}} dagen geen geslaagde run", "no_success_one": "Al 1 dag geen geslaagde run",
+    "view_run": "Run bekijken", "items": "Back-upitems", "new_item": "Nieuw item",
+    "col_item": "Item", "col_runs": "Laatste 14 runs", "col_last": "Laatste run", "col_next": "Volgende run",
+    "mirror": "spiegel · verwijdert", "running_pct": "Bezig {{pct}}%", "next": "Volgende {{when}}",
+    "run_now": "{{name}} nu starten", "hold_run": "Ingedrukt houden om te starten", "started_run": "Gestart",
+    "cancel_item": "{{name}} stoppen", "more": "Meer acties voor {{name}}",
+    "runs_label": "Laatste {{n}} runs: {{parts}}", "runs_s": "{{count}} gelukt", "runs_w": "{{count}} met waarschuwing", "runs_f": "{{count}} mislukt",
+    "copied": "{{size}}", "keep_holding": "Blijf ingedrukt houden", "disabled": "Uitgeschakeld"
+  },
+  "history": {
+    "title": "Geschiedenis", "retention": "De laatste {{runs}} runs per item worden {{days}} dagen bewaard.", "change": "Wijzigen in Instellingen",
+    "item": "Item", "all_items": "Alle items", "filter": "Filteren op resultaat", "all": "Alle",
+    "col_result": "Resultaat", "col_item": "Item", "col_started": "Gestart", "col_duration": "Duur", "col_copied": "Gekopieerd", "col_detail": "Details",
+    "files_size": "{{files}} bestanden · {{size}}", "nothing": "Niets gekopieerd", "so_far": "{{d}} tot nu",
+    "showing": "{{shown}} van {{total}} runs", "more": "Meer laden"
+  },
+  "common": { "loading": "Laden…", "error": "HomeBackup is niet bereikbaar. Opnieuw proberen…", "coming": "Deze pagina komt in de volgende mijlpaal." }
+}

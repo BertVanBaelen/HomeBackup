@@ -1,0 +1,626 @@
+{
+ "status": {
+  "now": "2026-11-10T14:09:00.094000+01:00",
+  "time_zone": "Europe/Brussels",
+  "queue": [],
+  "running": [
+   {
+    "run_id": "it2-202611101400",
+    "percent": 47.0,
+    "bytes_done": 23016180285,
+    "bytes_total": 48962627174,
+    "speed": 39845888,
+    "eta_s": 651
+   }
+  ],
+  "attention": [
+   {
+    "item_id": "it1",
+    "days_since_success": 16,
+    "last_run": {
+     "id": "it1-202611080400",
+     "item_id": "it1",
+     "trigger": "scheduled",
+     "status": "failure",
+     "started": "2026-11-08T04:00:00+01:00",
+     "ended": "2026-11-08T04:00:00+01:00",
+     "files": null,
+     "bytes": null,
+     "deleted": null,
+     "exit_code": null,
+     "message": {
+      "code": "target_not_found",
+      "params": {
+       "target": "usb-archive",
+       "label": "HB-ARCHIVE"
+      }
+     }
+    }
+   }
+  ]
+ },
+ "items": [
+  {
+   "id": "it1",
+   "name": "ha-backups",
+   "enabled": true,
+   "type": "rsync",
+   "source": "/backup",
+   "target_id": "tg2",
+   "target_path": "ha-backups",
+   "immich_mode": null,
+   "window": null,
+   "window_unit": null,
+   "include_thumbs": false,
+   "delete": false,
+   "schedule": "0 4 * * 0",
+   "hooks": {
+    "on_success": null,
+    "on_warning": null,
+    "on_failure": null
+   },
+   "next_run": "2026-11-15T04:00:00+01:00",
+   "last_run": {
+    "id": "it1-202611080400",
+    "item_id": "it1",
+    "trigger": "scheduled",
+    "status": "failure",
+    "started": "2026-11-08T04:00:00+01:00",
+    "ended": "2026-11-08T04:00:00+01:00",
+    "files": null,
+    "bytes": null,
+    "deleted": null,
+    "exit_code": null,
+    "message": {
+     "code": "target_not_found",
+     "params": {
+      "target": "usb-archive",
+      "label": "HB-ARCHIVE"
+     }
+    }
+   },
+   "recent": [
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "failure",
+    "failure"
+   ],
+   "last_success": "2026-10-25T04:00:00+01:00"
+  },
+  {
+   "id": "it2",
+   "name": "music-to-nas",
+   "enabled": true,
+   "type": "rsync",
+   "source": "/media/music",
+   "target_id": "tg3",
+   "target_path": "music",
+   "immich_mode": null,
+   "window": null,
+   "window_unit": null,
+   "include_thumbs": false,
+   "delete": false,
+   "schedule": "0 14 * * *",
+   "hooks": {
+    "on_success": null,
+    "on_warning": null,
+    "on_failure": null
+   },
+   "next_run": "2026-11-11T14:00:00+01:00",
+   "last_run": {
+    "id": "it2-202611101400",
+    "item_id": "it2",
+    "trigger": "scheduled",
+    "status": "running",
+    "started": "2026-11-10T14:00:00+01:00",
+    "ended": null,
+    "files": null,
+    "bytes": null,
+    "deleted": null,
+    "exit_code": null,
+    "message": null
+   },
+   "recent": [
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "warning",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success"
+   ],
+   "last_success": "2026-11-09T14:00:00+01:00"
+  },
+  {
+   "id": "it3",
+   "name": "immich-full-monthly",
+   "enabled": true,
+   "type": "immich",
+   "source": "/media/immich",
+   "target_id": "tg1",
+   "target_path": "immich",
+   "immich_mode": "full",
+   "window": null,
+   "window_unit": null,
+   "include_thumbs": false,
+   "delete": true,
+   "schedule": "0 5 1 * *",
+   "hooks": {
+    "on_success": null,
+    "on_warning": null,
+    "on_failure": null
+   },
+   "next_run": "2026-12-01T05:00:00+01:00",
+   "last_run": {
+    "id": "it3-202611010500",
+    "item_id": "it3",
+    "trigger": "scheduled",
+    "status": "warning",
+    "started": "2026-11-01T05:00:00+01:00",
+    "ended": "2026-11-01T06:56:10.285714+01:00",
+    "files": 2318,
+    "bytes": 15755013783,
+    "deleted": 12,
+    "exit_code": 24,
+    "message": {
+     "code": "rsync_vanished",
+     "params": {
+      "exit_code": 24,
+      "files": 3
+     }
+    }
+   },
+   "recent": [
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "warning",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "warning"
+   ],
+   "last_success": "2026-11-01T05:00:00+01:00"
+  },
+  {
+   "id": "it4",
+   "name": "immich-recent",
+   "enabled": true,
+   "type": "immich",
+   "source": "/media/immich",
+   "target_id": "tg1",
+   "target_path": "immich",
+   "immich_mode": "recent",
+   "window": 2,
+   "window_unit": "months",
+   "include_thumbs": false,
+   "delete": false,
+   "schedule": "0 3 * * *",
+   "hooks": {
+    "on_success": null,
+    "on_warning": null,
+    "on_failure": "script.backup_failed"
+   },
+   "next_run": "2026-11-11T03:00:00+01:00",
+   "last_run": {
+    "id": "it4-202611100300",
+    "item_id": "it4",
+    "trigger": "scheduled",
+    "status": "success",
+    "started": "2026-11-10T03:00:00+01:00",
+    "ended": "2026-11-10T03:19:32.571429+01:00",
+    "files": 1204,
+    "bytes": 6690485304,
+    "deleted": null,
+    "exit_code": 0,
+    "message": null
+   },
+   "recent": [
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "warning",
+    "success",
+    "success",
+    "success",
+    "success"
+   ],
+   "last_success": "2026-11-10T03:00:00+01:00"
+  },
+  {
+   "id": "it5",
+   "name": "ha-config",
+   "enabled": true,
+   "type": "rsync",
+   "source": "/homeassistant",
+   "target_id": "tg3",
+   "target_path": "homeassistant",
+   "immich_mode": null,
+   "window": null,
+   "window_unit": null,
+   "include_thumbs": false,
+   "delete": false,
+   "schedule": "30 1 * * *",
+   "hooks": {
+    "on_success": null,
+    "on_warning": null,
+    "on_failure": null
+   },
+   "next_run": "2026-11-11T01:30:00+01:00",
+   "last_run": {
+    "id": "it5-202611100130",
+    "item_id": "it5",
+    "trigger": "scheduled",
+    "status": "success",
+    "started": "2026-11-10T01:30:00+01:00",
+    "ended": "2026-11-10T01:30:45.600000+01:00",
+    "files": 37,
+    "bytes": 18968739,
+    "deleted": null,
+    "exit_code": 0,
+    "message": null
+   },
+   "recent": [
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success"
+   ],
+   "last_success": "2026-11-10T01:30:00+01:00"
+  }
+ ],
+ "targets": [
+  {
+   "id": "tg1",
+   "name": "usb-stick",
+   "kind": "drive",
+   "filesystem": "exfat",
+   "find_by": "uuid",
+   "ident": "3E4F-91AB",
+   "protocol": null,
+   "host": null,
+   "share": null,
+   "username": null,
+   "password_set": false,
+   "mount_options": "",
+   "rsync_flags": "-rt --no-perms --no-owner --no-group --modify-window=2",
+   "min_free_bytes": 10737418240,
+   "status": {
+    "ok": true,
+    "problem": null,
+    "device": "/dev/sda2",
+    "free_bytes": 442381631488
+   },
+   "used_by": [
+    "it3",
+    "it4"
+   ]
+  },
+  {
+   "id": "tg2",
+   "name": "usb-archive",
+   "kind": "drive",
+   "filesystem": "ext4",
+   "find_by": "label",
+   "ident": "HB-ARCHIVE",
+   "protocol": null,
+   "host": null,
+   "share": null,
+   "username": null,
+   "password_set": false,
+   "mount_options": "",
+   "rsync_flags": "-a",
+   "min_free_bytes": 10737418240,
+   "status": {
+    "ok": false,
+    "problem": {
+     "code": "drive_not_found",
+     "params": {}
+    },
+    "device": null,
+    "free_bytes": null
+   },
+   "used_by": [
+    "it1"
+   ]
+  },
+  {
+   "id": "tg3",
+   "name": "nas-backup",
+   "kind": "share",
+   "filesystem": null,
+   "find_by": null,
+   "ident": null,
+   "protocol": "smb",
+   "host": "nas.local",
+   "share": "backup",
+   "username": "homebackup",
+   "password_set": true,
+   "mount_options": "",
+   "rsync_flags": "-rt --no-perms --no-owner --no-group",
+   "min_free_bytes": 10737418240,
+   "status": {
+    "ok": true,
+    "problem": null,
+    "device": null,
+    "free_bytes": 3408486046105
+   },
+   "used_by": [
+    "it2",
+    "it5"
+   ]
+  }
+ ],
+ "settings": {
+  "hook_success": "script.backup_ok",
+  "hook_warning": "script.backup_warn",
+  "hook_failure": "script.backup_failed",
+  "overdue_days": 7,
+  "keep_runs": 30,
+  "keep_days": 90,
+  "language": "auto",
+  "time_zone": "Europe/Brussels",
+  "log_level": "info"
+ },
+ "runs?limit=12": {
+  "runs": [
+   {
+    "id": "it2-202611101400",
+    "item_id": "it2",
+    "trigger": "scheduled",
+    "status": "running",
+    "started": "2026-11-10T14:00:00+01:00",
+    "ended": null,
+    "files": null,
+    "bytes": null,
+    "deleted": null,
+    "exit_code": null,
+    "message": null
+   },
+   {
+    "id": "it4-202611100300",
+    "item_id": "it4",
+    "trigger": "scheduled",
+    "status": "success",
+    "started": "2026-11-10T03:00:00+01:00",
+    "ended": "2026-11-10T03:19:32.571429+01:00",
+    "files": 1204,
+    "bytes": 6690485304,
+    "deleted": null,
+    "exit_code": 0,
+    "message": null
+   },
+   {
+    "id": "it5-202611100130",
+    "item_id": "it5",
+    "trigger": "scheduled",
+    "status": "success",
+    "started": "2026-11-10T01:30:00+01:00",
+    "ended": "2026-11-10T01:30:45.600000+01:00",
+    "files": 37,
+    "bytes": 18968739,
+    "deleted": null,
+    "exit_code": 0,
+    "message": null
+   },
+   {
+    "id": "it2-202611091400",
+    "item_id": "it2",
+    "trigger": "scheduled",
+    "status": "success",
+    "started": "2026-11-09T14:00:00+01:00",
+    "ended": "2026-11-09T14:28:13.714286+01:00",
+    "files": 312,
+    "bytes": 3668975812,
+    "deleted": null,
+    "exit_code": 0,
+    "message": null
+   },
+   {
+    "id": "it4-202611090300",
+    "item_id": "it4",
+    "trigger": "scheduled",
+    "status": "success",
+    "started": "2026-11-09T03:00:00+01:00",
+    "ended": "2026-11-09T03:19:17.142857+01:00",
+    "files": 1203,
+    "bytes": 6657199308,
+    "deleted": null,
+    "exit_code": 0,
+    "message": null
+   },
+   {
+    "id": "it5-202611090130",
+    "item_id": "it5",
+    "trigger": "scheduled",
+    "status": "success",
+    "started": "2026-11-09T01:30:00+01:00",
+    "ended": "2026-11-09T01:30:45+01:00",
+    "files": 36,
+    "bytes": 18874368,
+    "deleted": null,
+    "exit_code": 0,
+    "message": null
+   },
+   {
+    "id": "it2-202611081400",
+    "item_id": "it2",
+    "trigger": "scheduled",
+    "status": "success",
+    "started": "2026-11-08T14:00:00+01:00",
+    "ended": "2026-11-08T14:27:51.428571+01:00",
+    "files": 311,
+    "bytes": 3650722201,
+    "deleted": null,
+    "exit_code": 0,
+    "message": null
+   },
+   {
+    "id": "it1-202611080400",
+    "item_id": "it1",
+    "trigger": "scheduled",
+    "status": "failure",
+    "started": "2026-11-08T04:00:00+01:00",
+    "ended": "2026-11-08T04:00:00+01:00",
+    "files": null,
+    "bytes": null,
+    "deleted": null,
+    "exit_code": null,
+    "message": {
+     "code": "target_not_found",
+     "params": {
+      "target": "usb-archive",
+      "label": "HB-ARCHIVE"
+     }
+    }
+   },
+   {
+    "id": "it4-202611080300",
+    "item_id": "it4",
+    "trigger": "scheduled",
+    "status": "success",
+    "started": "2026-11-08T03:00:00+01:00",
+    "ended": "2026-11-08T03:19:01.714286+01:00",
+    "files": 1202,
+    "bytes": 6623913311,
+    "deleted": null,
+    "exit_code": 0,
+    "message": null
+   },
+   {
+    "id": "it5-202611080130",
+    "item_id": "it5",
+    "trigger": "scheduled",
+    "status": "success",
+    "started": "2026-11-08T01:30:00+01:00",
+    "ended": "2026-11-08T01:30:44.400000+01:00",
+    "files": 35,
+    "bytes": 18779996,
+    "deleted": null,
+    "exit_code": 0,
+    "message": null
+   },
+   {
+    "id": "it2-202611071400",
+    "item_id": "it2",
+    "trigger": "scheduled",
+    "status": "success",
+    "started": "2026-11-07T14:00:00+01:00",
+    "ended": "2026-11-07T14:27:29.142857+01:00",
+    "files": 310,
+    "bytes": 3632468589,
+    "deleted": null,
+    "exit_code": 0,
+    "message": null
+   },
+   {
+    "id": "it4-202611070300",
+    "item_id": "it4",
+    "trigger": "scheduled",
+    "status": "success",
+    "started": "2026-11-07T03:00:00+01:00",
+    "ended": "2026-11-07T03:18:46.285714+01:00",
+    "files": 1201,
+    "bytes": 6590627314,
+    "deleted": null,
+    "exit_code": 0,
+    "message": null
+   }
+  ],
+  "total": 71,
+  "counts": {
+   "success": 64,
+   "warning": 4,
+   "failure": 2,
+   "running": 1
+  }
+ },
+ "runs?status=failure&limit=12": {
+  "runs": [
+   {
+    "id": "it1-202611080400",
+    "item_id": "it1",
+    "trigger": "scheduled",
+    "status": "failure",
+    "started": "2026-11-08T04:00:00+01:00",
+    "ended": "2026-11-08T04:00:00+01:00",
+    "files": null,
+    "bytes": null,
+    "deleted": null,
+    "exit_code": null,
+    "message": {
+     "code": "target_not_found",
+     "params": {
+      "target": "usb-archive",
+      "label": "HB-ARCHIVE"
+     }
+    }
+   },
+   {
+    "id": "it1-202611010400",
+    "item_id": "it1",
+    "trigger": "scheduled",
+    "status": "failure",
+    "started": "2026-11-01T04:00:00+01:00",
+    "ended": "2026-11-01T04:00:00+01:00",
+    "files": null,
+    "bytes": null,
+    "deleted": null,
+    "exit_code": null,
+    "message": {
+     "code": "target_not_found",
+     "params": {
+      "target": "usb-archive",
+      "label": "HB-ARCHIVE"
+     }
+    }
+   }
+  ],
+  "total": 2,
+  "counts": {
+   "success": 64,
+   "warning": 4,
+   "failure": 2,
+   "running": 1
+  }
+ }
+}

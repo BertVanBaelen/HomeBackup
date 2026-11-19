@@ -1,0 +1,16 @@
+name: HomeBackup
+version: "0.1.0"
+slug: homebackup
+description: Back up Home Assistant, Immich and media to USB drives and network shares with rsync.
+url: https://github.com/BertVanBaelen/HomeBackup
+arch:
+  - amd64
+  - aarch64
+init: false
+startup: application
+boot: auto
+ingress: true
+ingress_port: 8099
+panel_icon: mdi:backup-restore
+panel_title: HomeBackup
+panel_admin: true

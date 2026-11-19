@@ -1,0 +1,152 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/inter";
+@import "@fontsource/space-grotesk/500.css";
+@import "@fontsource/space-grotesk/600.css";
+@import "@fontsource/space-grotesk/700.css";
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/500.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+    --font-heading: 'Space Grotesk', 'Inter Variable', system-ui, sans-serif;
+    --font-sans: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+    --color-brand: #166534;
+    --color-rail: var(--hb-rail);
+    --color-panel: var(--hb-panel);
+    --color-panel2: var(--hb-panel2);
+    --color-line: var(--hb-line);
+    --color-line2: var(--hb-line2);
+    --color-field: var(--hb-field);
+    --color-field-line: var(--hb-field-line);
+    --color-soft: var(--hb-soft);
+    --color-faint: var(--hb-muted);
+    --color-accent-ink: var(--hb-accent);
+    --color-soft-btn: var(--hb-soft-btn);
+    --color-ok: var(--hb-ok);
+    --color-warn: var(--hb-warn);
+    --color-fail: var(--hb-fail);
+    --color-run: var(--hb-run);
+    --color-ok-bg: var(--hb-ok-bg);
+    --color-warn-bg: var(--hb-warn-bg);
+    --color-fail-bg: var(--hb-fail-bg);
+    --color-run-bg: var(--hb-run-bg);
+    --color-ok-ic: var(--hb-ok-ic);
+    --color-warn-ic: var(--hb-warn-ic);
+    --color-fail-ic: var(--hb-fail-ic);
+    --color-run-ic: var(--hb-run-ic);
+    --color-bar-ok: var(--hb-bar-ok);
+    --color-bar-warn: var(--hb-bar-warn);
+    --color-bar-fail: var(--hb-bar-fail);
+    --color-alert-bg: var(--hb-alert-bg);
+    --color-alert-line: var(--hb-alert-line);
+    --color-alert-head: var(--hb-alert-head);
+    --color-alert-text: var(--hb-alert-text);
+    --color-alert-btn: var(--hb-alert-btn);
+    --color-sidebar-ring: var(--sidebar-ring);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar: var(--sidebar);
+    --color-chart-5: var(--chart-5);
+    --color-chart-4: var(--chart-4);
+    --color-chart-3: var(--chart-3);
+    --color-chart-2: var(--chart-2);
+    --color-chart-1: var(--chart-1);
+    --color-ring: var(--ring);
+    --color-input: var(--input);
+    --color-border: var(--border);
+    --color-destructive: var(--destructive);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-accent: var(--accent);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-muted: var(--muted);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-secondary: var(--secondary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-primary: var(--primary);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-popover: var(--popover);
+    --color-card-foreground: var(--card-foreground);
+    --color-card: var(--card);
+    --color-foreground: var(--foreground);
+    --color-background: var(--background);
+    --radius-sm: calc(var(--radius) * 0.6);
+    --radius-md: calc(var(--radius) * 0.8);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) * 1.4);
+    --radius-2xl: calc(var(--radius) * 1.8);
+    --radius-3xl: calc(var(--radius) * 2.2);
+    --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* HomeBackup design tokens (from the HomeBackup UI canvas), mapped onto shadcn's semantic variables. */
+:root {
+    --hb-bg: #f2f5f3; --hb-rail: #ffffff; --hb-panel: #ffffff; --hb-panel2: #f2f5f3; --hb-line: #dde5df; --hb-line2: #b4c3b9;
+    --hb-field: #ffffff; --hb-field-line: #7d8f83;
+    --hb-text: #15241b; --hb-soft: #2c3a31; --hb-muted: #56665b; --hb-accent: #166534; --hb-accent-bg: #e7f2ea; --hb-accent-fg: #14532d;
+    --hb-soft-btn: #e7f2ea;
+    --hb-ok: #166534; --hb-warn: #92400e; --hb-fail: #b91c1c; --hb-run: #1d4ed8;
+    --hb-ok-bg: #dcfce7; --hb-warn-bg: #fef3c7; --hb-fail-bg: #fee2e2; --hb-run-bg: #dbeafe;
+    --hb-ok-ic: #15803d; --hb-warn-ic: #b45309; --hb-fail-ic: #b91c1c; --hb-run-ic: #1d4ed8;
+    --hb-bar-ok: #16a34a; --hb-bar-warn: #d97706; --hb-bar-fail: #dc2626;
+    --hb-alert-bg: #fdf0ef; --hb-alert-line: #f3c9c5; --hb-alert-head: #7a1712; --hb-alert-text: #7a1712; --hb-alert-btn: #e8b4ae;
+    color-scheme: light;
+}
+
+.dark {
+    --hb-bg: #0d1410; --hb-rail: #121815; --hb-panel: #141c17; --hb-panel2: #1b2620; --hb-line: #26332b; --hb-line2: #3d4e43;
+    --hb-field: #0f1612; --hb-field-line: #5b6e62;
+    --hb-text: #e6eee8; --hb-soft: #c4d2c8; --hb-muted: #9fb0a5; --hb-accent: #6fd394; --hb-accent-bg: #183a25; --hb-accent-fg: #c9f0d6;
+    --hb-soft-btn: #1b2a20;
+    --hb-ok: #6fd394; --hb-warn: #fcd34d; --hb-fail: #fca5a5; --hb-run: #93c5fd;
+    --hb-ok-bg: #14301f; --hb-warn-bg: #3a2a12; --hb-fail-bg: #3a1a1d; --hb-run-bg: #16294a;
+    --hb-ok-ic: #4ade80; --hb-warn-ic: #fcd34d; --hb-fail-ic: #f87171; --hb-run-ic: #7cb4fb;
+    --hb-bar-ok: #22c55e; --hb-bar-warn: #fcd34d; --hb-bar-fail: #ef4444;
+    --hb-alert-bg: #2a1517; --hb-alert-line: #5a2529; --hb-alert-head: #fde8e8; --hb-alert-text: #e7bfc1; --hb-alert-btn: #8a3b40;
+    color-scheme: dark;
+}
+
+:root, .dark {
+    --background: var(--hb-bg);
+    --foreground: var(--hb-text);
+    --card: var(--hb-panel);
+    --card-foreground: var(--hb-text);
+    --popover: var(--hb-panel);
+    --popover-foreground: var(--hb-text);
+    --primary: #166534;
+    --primary-foreground: #ffffff;
+    --secondary: var(--hb-panel2);
+    --secondary-foreground: var(--hb-soft);
+    --muted: var(--hb-panel2);
+    --muted-foreground: var(--hb-muted);
+    --accent: var(--hb-accent-bg);
+    --accent-foreground: var(--hb-accent-fg);
+    --destructive: var(--hb-fail-ic);
+    --border: var(--hb-line);
+    --input: var(--hb-field-line);
+    --ring: #3b82f6;
+    --radius: 0.625rem;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  :focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: -2px;
+  }
+}
