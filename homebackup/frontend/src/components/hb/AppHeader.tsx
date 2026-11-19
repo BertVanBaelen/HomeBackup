@@ -3,11 +3,11 @@ import { useLocation, useNavigate } from 'react-router'
 import SmoothTab from '@/components/kokonutui/smooth-tab'
 import { Mark } from './Mark'
 
-const SECTIONS = { dashboard: '/', history: '/history', targets: '/targets', settings: '/settings' } as const
-type Section = keyof typeof SECTIONS
+export const SECTIONS = { dashboard: '/', history: '/history', targets: '/targets', settings: '/settings' } as const
+export type Section = keyof typeof SECTIONS
 
 /** Which section a page belongs to: item and plan pages sit under Dashboard, run pages under History. */
-function sectionOf(path: string): Section {
+export function sectionOf(path: string): Section {
   const first = path.split('/')[1]
   if (first === 'runs' || first === 'history') return 'history'
   if (first === 'targets' || first === 'settings') return first

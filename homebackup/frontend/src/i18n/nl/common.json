@@ -151,5 +151,53 @@
     "loading": "Laden…",
     "error": "HomeBackup is niet bereikbaar. Opnieuw proberen…",
     "coming": "Deze pagina komt in de volgende mijlpaal."
+  },
+  "schedule": {
+    "label": "Hoe vaak",
+    "hourly": "Elk uur",
+    "daily": "Elke dag",
+    "weekly": "Elke week",
+    "monthly": "Elke maand",
+    "custom": "Aangepast (cron)",
+    "minute": "Op minuut",
+    "time": "Om",
+    "days": "Op",
+    "day": "Op dag",
+    "of_month": "van de maand",
+    "cron": "Cron-uitdrukking",
+    "cron_hint": "Vijf velden: minuut, uur, dag van de maand, maand, dag van de week.",
+    "weekday_short": {
+      "0": "zo",
+      "1": "ma",
+      "2": "di",
+      "3": "wo",
+      "4": "do",
+      "5": "vr",
+      "6": "za"
+    },
+    "weekday_long": {
+      "0": "zondag",
+      "1": "maandag",
+      "2": "dinsdag",
+      "3": "woensdag",
+      "4": "donderdag",
+      "5": "vrijdag",
+      "6": "zaterdag"
+    }
+  },
+  "picker": {
+    "browse": "Bladeren",
+    "title": "Kies de bronmap",
+    "description": "Je ziet alleen de mappen die Home Assistant met HomeBackup deelt. Ze zijn alleen-lezen.",
+    "use": "Deze map gebruiken",
+    "cancel": "Annuleren",
+    "selected": "Gekozen: {{path}}",
+    "none": "Geen map gekozen",
+    "empty": "Deze map is leeg.",
+    "truncated": "De eerste 500 items worden getoond.",
+    "loading": "Laden…",
+    "open": "{{name}} openen",
+    "close": "{{name}} sluiten",
+    "tree": "Bronmappen"
   }
 }

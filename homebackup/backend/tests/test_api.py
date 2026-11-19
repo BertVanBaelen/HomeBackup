@@ -147,3 +147,22 @@ def test_save_while_config_invalid_is_409(client, store, tmp_path):
     client.post("/api/v1/config/check")
     s = client.get("/api/v1/settings").json()
     assert client.put("/api/v1/settings", json=s).status_code == 409
+
+
+def test_browse_roots_folders_and_files(client):
+    roots = client.get("/api/v1/browse").json()
+    assert [e["path"] for e in roots["entries"]] == ["/homeassistant", "/backup", "/media", "/share"]
+    media = client.get("/api/v1/browse", params={"path": "/media"}).json()
+    assert [e["name"] for e in media["entries"]] == ["immich", "music"] and media["parent"] is None
+    ha = client.get("/api/v1/browse", params={"path": "/homeassistant"}).json()
+    names = [(e["name"], e["dir"]) for e in ha["entries"]]
+    assert names[:3] == [(".storage", True), ("blueprints", True), ("custom_components", True)]  # folders first
+    assert ("configuration.yaml", False) in names and all(e["size"] for e in ha["entries"] if not e["dir"])
+    deep = client.get("/api/v1/browse", params={"path": "/media/music/Daft Punk"}).json()
+    assert deep["parent"] == "/media/music"
+
+
+def test_browse_cannot_leave_the_source_folders(client):
+    for bad in ["/data", "/etc", "/media/../data", "/mediaX", "relative"]:
+        assert client.get("/api/v1/browse", params={"path": bad}).status_code == 400, bad
+    assert client.get("/api/v1/browse", params={"path": "/media/nope"}).status_code == 404

@@ -21,10 +21,12 @@ from .models import (
     Check,
     ConfigStatus,
     Device,
+    Entry,
     Folder,
     Item,
     ItemCheck,
     ItemView,
+    Listing,
     Message,
     Plan,
     RunDetail,
@@ -47,6 +49,14 @@ class InUse(Exception):
     pass
 
 
+class BadPath(Exception):
+    pass
+
+
+SOURCE_ROOTS = ("/homeassistant", "/backup", "/media", "/share")
+BROWSE_LIMIT = 500
+
+
 class Store:
     def __init__(self, data_dir: Path, config_path: Path, mount_root: Path, exec: Exec,
                  port_check: Callable[[str, int], Awaitable[bool]] = port_open,
@@ -62,6 +72,8 @@ class Store:
         self.type_dirs = type_dirs or [(BUILTIN_TYPES, True)]
         self.types = load_types(self.type_dirs)
         self.last_free: dict[str, int | None] = {}
+        # the read-only source folders HA maps into the add-on: visible path -> real path
+        self.sources = {p: Path(p) for p in SOURCE_ROOTS}
         self.runner = Runner(self)
 
     # --- construction ----------------------------------------------------------------------
@@ -93,6 +105,9 @@ class Store:
             store.cfg.set_password(fx.TARGETS[2], "demo")
             for r in fx.build_runs(base):
                 store.history.save(RunDetail(**r.model_dump()))
+        store.sources = {p: data / "fs" / p.strip("/") for p in SOURCE_ROOTS}
+        if fresh:
+            _demo_files(data / "fs")
         if start_running:
             store.runner.request(next(i.id for i in fx.ITEMS if i.name == fx.RUNNING["item"]), "scheduled")
         return store
@@ -278,6 +293,31 @@ class Store:
     def plan_for_target(self, item: Item, target: Target) -> Plan:
         return build_plan(item, target, self.types, self.mount_root, str(self.cfg.cred_path(target.id)))
 
+    # --- source browser ------------------------------------------------------------------------
+    def browse(self, path: str | None) -> Listing:
+        """Read-only listing for the folder picker, limited to the mapped source folders."""
+        if not path:
+            return Listing(path=None, parent=None, entries=[Entry(name=p.strip("/"), path=p, dir=True)
+                                                            for p, real in self.sources.items() if real.is_dir()])
+        root = next((r for r in self.sources if path == r or path.startswith(r + "/")), None)
+        if root is None or ".." in path.split("/"):
+            raise BadPath(path)
+        base = self.sources[root].resolve()
+        real = (base / path[len(root):].lstrip("/")).resolve()
+        if real != base and base not in real.parents:  # a symlink pointing out of the source folder
+            raise BadPath(path)
+        if not real.is_dir():
+            raise KeyError(path)
+        entries = []
+        with os.scandir(real) as it:
+            for e in it:
+                is_dir = e.is_dir(follow_symlinks=False)
+                entries.append(Entry(name=e.name, path=f"{path.rstrip('/')}/{e.name}", dir=is_dir,
+                                     size=None if is_dir else _size(e)))
+        entries.sort(key=lambda e: (not e.dir, e.name.lower()))
+        parent = None if path == root else path.rsplit("/", 1)[0] or None
+        return Listing(path=path, parent=parent, entries=entries[:BROWSE_LIMIT], truncated=len(entries) > BROWSE_LIMIT)
+
     # --- runs and status -------------------------------------------------------------------------
     def status(self) -> Status:
         now = self.clock()
@@ -307,3 +347,27 @@ class Store:
 
 async def _true() -> bool:
     return True
+
+
+def _size(e: os.DirEntry) -> int | None:
+    try:
+        return e.stat(follow_symlinks=False).st_size
+    except OSError:
+        return None
+
+
+def _demo_files(fs: Path):
+    tree = {
+        "homeassistant": ["configuration.yaml", "automations.yaml", "secrets.yaml", "custom_components/hacs/manifest.json",
+                          "blueprints/automation/motion_light.yaml", ".storage/core.config_entries"],
+        "backup": ["a1b2c3d4.tar", "e5f6a7b8.tar"],
+        "media": ["music/Daft Punk/Discovery/01 One More Time.flac", "music/Nina Simone/Pastel Blues/01 Be My Husband.flac",
+                  "immich/library/admin/2026/11/IMG_2214.HEIC", "immich/library/family/2026/10/PXL_20261031.jpg",
+                  "immich/upload/.immich", "immich/backups/immich-db-backup-1731200000.sql.gz", "immich/profile/admin.jpg"],
+        "share": ["documents/taxes-2025.pdf", "scans/receipt-0412.pdf"],
+    }
+    for root, files in tree.items():
+        for f in files:
+            p = fs / root / f
+            p.parent.mkdir(parents=True, exist_ok=True)
+            p.write_text("demo " * (len(f) * 37))

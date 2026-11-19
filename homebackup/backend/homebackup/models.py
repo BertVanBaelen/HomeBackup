@@ -209,3 +209,17 @@ class BackupType(BaseModel):
     version: str = "1"
     builtin: bool = True
     error: str | None = None
+
+
+class Entry(BaseModel):
+    name: str
+    path: str  # as the add-on sees it, e.g. /media/music
+    dir: bool
+    size: int | None = None  # files only
+
+
+class Listing(BaseModel):
+    path: str | None  # None = the list of source roots
+    parent: str | None
+    entries: list[Entry]
+    truncated: bool = False

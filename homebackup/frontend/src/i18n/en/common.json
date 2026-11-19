@@ -154,5 +154,53 @@
     "loading": "Loading…",
     "error": "Could not reach HomeBackup. Retrying…",
     "coming": "This page arrives in the next milestone."
+  },
+  "schedule": {
+    "label": "How often",
+    "hourly": "Every hour",
+    "daily": "Every day",
+    "weekly": "Every week",
+    "monthly": "Every month",
+    "custom": "Custom (cron)",
+    "minute": "At minute",
+    "time": "At",
+    "days": "On",
+    "day": "On day",
+    "of_month": "of the month",
+    "cron": "Cron expression",
+    "cron_hint": "Five fields: minute, hour, day of month, month, day of week.",
+    "weekday_short": {
+      "0": "Sun",
+      "1": "Mon",
+      "2": "Tue",
+      "3": "Wed",
+      "4": "Thu",
+      "5": "Fri",
+      "6": "Sat"
+    },
+    "weekday_long": {
+      "0": "Sunday",
+      "1": "Monday",
+      "2": "Tuesday",
+      "3": "Wednesday",
+      "4": "Thursday",
+      "5": "Friday",
+      "6": "Saturday"
+    }
+  },
+  "picker": {
+    "browse": "Browse",
+    "title": "Pick the source folder",
+    "description": "Only the folders Home Assistant shares with HomeBackup are shown. They are read-only.",
+    "use": "Use this folder",
+    "cancel": "Cancel",
+    "selected": "Selected: {{path}}",
+    "none": "No folder selected",
+    "empty": "This folder is empty.",
+    "truncated": "Showing the first 500 entries.",
+    "loading": "Loading…",
+    "open": "Open {{name}}",
+    "close": "Close {{name}}",
+    "tree": "Source folders"
   }
 }

@@ -16,6 +16,7 @@ from .models import (
     Item,
     ItemCheck,
     ItemView,
+    Listing,
     LogLine,
     Plan,
     Result,
@@ -28,7 +29,7 @@ from .models import (
     TargetTest,
     TargetView,
 )
-from .store import Conflict, InUse, Store
+from .store import BadPath, Conflict, InUse, Store
 
 
 class RunPage(BaseModel):
@@ -162,6 +163,15 @@ def build_api(store: Store) -> APIRouter:
     @api.post("/targets/test")
     async def test_target(t: TargetIn) -> TargetTest:
         return await store.test_target(t)
+
+    @api.get("/browse")
+    def browse(path: str | None = None) -> Listing:
+        try:
+            return store.browse(path)
+        except BadPath:
+            raise HTTPException(400, "Only the mapped source folders can be browsed")
+        except KeyError:
+            raise HTTPException(404, "Folder not found")
 
     @api.get("/devices")
     async def devices() -> list[Device]:

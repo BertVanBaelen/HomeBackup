@@ -26,6 +26,8 @@ export type ConfigStatus = S['ConfigStatus']
 export type BackupType = S['BackupType']
 export type Result = RunSummary['status']
 export type Message = S['Message']
+export type Listing = S['Listing']
+export type Entry = S['Entry']
 
 /** A failed API call; `detail` is FastAPI's error body (a string, or a list of field errors for 422). */
 export class ApiError extends Error {
@@ -69,6 +71,10 @@ export const useDevices = () => useQuery({ queryKey: ['devices'], queryFn: () =>
 export const useSettings = () => useQuery({ queryKey: ['settings'], queryFn: () => call<Settings>('settings') })
 export const useConfigStatus = () => useQuery({ queryKey: ['config'], queryFn: () => call<ConfigStatus>('config') })
 export const useTypes = () => useQuery({ queryKey: ['types'], queryFn: () => call<BackupType[]>('types') })
+/** One folder of the read-only source folders; no path = the list of source roots. */
+export const useBrowse = (path: string | null, enabled = true) => useQuery({
+  queryKey: ['browse', path], queryFn: () => call<Listing>(path ? `browse?path=${encodeURIComponent(path)}` : 'browse'), enabled,
+})
 export const useScripts = () => useQuery({ queryKey: ['scripts'], queryFn: () => call<string[]>('scripts') })
 
 export function useRuns(params: { item_id?: string; status?: Result; limit: number }) {

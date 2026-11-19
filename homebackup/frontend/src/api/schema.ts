@@ -233,6 +233,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/browse": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Browse */
+        get: operations["browse_api_v1_browse_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/devices": {
         parameters: {
             query?: never;
@@ -434,6 +451,17 @@ export interface components {
             /** Filesystem */
             filesystem?: string | null;
         };
+        /** Entry */
+        Entry: {
+            /** Name */
+            name: string;
+            /** Path */
+            path: string;
+            /** Dir */
+            dir: boolean;
+            /** Size */
+            size?: number | null;
+        };
         /** Folder */
         Folder: {
             /** Path */
@@ -567,6 +595,20 @@ export interface components {
             recent: ("success" | "warning" | "failure" | "running")[];
             /** Last Success */
             last_success: string | null;
+        };
+        /** Listing */
+        Listing: {
+            /** Path */
+            path: string | null;
+            /** Parent */
+            parent: string | null;
+            /** Entries */
+            entries: components["schemas"]["Entry"][];
+            /**
+             * Truncated
+             * @default false
+             */
+            truncated: boolean;
         };
         /** LogLine */
         LogLine: {
@@ -1507,6 +1549,37 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["TargetTest"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    browse_api_v1_browse_get: {
+        parameters: {
+            query?: {
+                path?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Listing"];
                 };
             };
             /** @description Validation Error */

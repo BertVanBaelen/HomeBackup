@@ -1,9 +1,10 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { useEffect } from 'react'
+import { AnimatePresence, MotionConfig, motion } from 'motion/react'
+import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { HashRouter, Route, Routes } from 'react-router'
+import { HashRouter, Route, Routes, useLocation } from 'react-router'
 import { useSettings } from '@/api/client'
-import { AppHeader } from '@/components/hb/AppHeader'
+import { AppHeader, SECTIONS, sectionOf } from '@/components/hb/AppHeader'
 import i18n from '@/i18n'
 import { resolveLanguage, useHaEnv } from '@/lib/ha'
 import { Dashboard } from '@/pages/Dashboard'
@@ -33,24 +34,52 @@ function ComingSoon() {
   return <p className="text-faint">{t('common.coming')}</p>
 }
 
+const ORDER = Object.keys(SECTIONS)
+const slide = {
+  enter: (dir: number) => ({ x: dir * 64, opacity: 0 }),
+  center: { x: 0, opacity: 1 },
+  exit: (dir: number) => ({ x: dir * -64, opacity: 0 }),
+}
+
+/** Switching section slides the page in from the side of the tab you picked; pages within a section just swap. */
+function SlidingRoutes() {
+  const location = useLocation()
+  const section = sectionOf(location.pathname)
+  const prev = useRef(section)
+  const dir = ORDER.indexOf(section) >= ORDER.indexOf(prev.current) ? 1 : -1
+  useEffect(() => { prev.current = section }, [section])
+  return (
+    <div className="overflow-x-clip">
+      <AnimatePresence mode="popLayout" initial={false} custom={dir}>
+        <motion.div key={section} custom={dir} variants={slide} initial="enter" animate="center" exit="exit"
+          transition={{ type: 'spring', stiffness: 420, damping: 38 }} className="flex flex-col gap-6">
+          <Routes location={location}>
+            <Route index element={<Dashboard />} />
+            <Route path="history" element={<History />} />
+            <Route path="items/new" element={<ItemEditor />} />
+            <Route path="items/:id" element={<ItemEditor />} />
+            <Route path="items/:id/plan" element={<PlanPreview />} />
+            <Route path="runs/:id" element={<RunDetail />} />
+            <Route path="targets" element={<Targets />} />
+            <Route path="targets/:id" element={<Targets />} />
+            <Route path="settings" element={<Settings />} />
+            <Route path="*" element={<ComingSoon />} />
+          </Routes>
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  )
+}
+
 function Shell() {
   useHaSync()
   return (
-    <div className="mx-auto flex w-full max-w-[1120px] flex-col gap-6 px-[clamp(16px,4vw,32px)] pt-5 pb-10">
-      <AppHeader />
-      <Routes>
-        <Route index element={<Dashboard />} />
-        <Route path="history" element={<History />} />
-        <Route path="items/new" element={<ItemEditor />} />
-        <Route path="items/:id" element={<ItemEditor />} />
-        <Route path="items/:id/plan" element={<PlanPreview />} />
-        <Route path="runs/:id" element={<RunDetail />} />
-        <Route path="targets" element={<Targets />} />
-        <Route path="targets/:id" element={<Targets />} />
-        <Route path="settings" element={<Settings />} />
-        <Route path="*" element={<ComingSoon />} />
-      </Routes>
-    </div>
+    <MotionConfig reducedMotion="user">
+      <div className="mx-auto flex w-full max-w-[1120px] flex-col gap-6 px-[clamp(16px,4vw,32px)] pt-5 pb-10">
+        <AppHeader />
+        <SlidingRoutes />
+      </div>
+    </MotionConfig>
   )
 }
 

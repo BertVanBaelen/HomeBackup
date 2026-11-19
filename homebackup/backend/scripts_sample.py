@@ -34,7 +34,8 @@ with client(rsync_seconds=0, start_running=False) as c:
     item = c.get("/api/v1/items/it5").json()
     out = {p: c.get(f"/api/v1/{p}").json() for p in [
         "targets", "settings", "config", "types", "scripts", "devices", "items/it5", "items/it4",
-        "items/it5/plan", "items/it4/plan", f"runs/{manual}", "runs/it1-202611080400"]}
+        "items/it5/plan", "items/it4/plan", f"runs/{manual}", "runs/it1-202611080400",
+        "browse", "browse?path=%2Fmedia", "browse?path=%2Fmedia%2Fmusic", "browse?path=%2Fhomeassistant"]}
     out["POST items/check"] = c.post("/api/v1/items/check", json=item).json()
     out["POST plans"] = c.post("/api/v1/plans", json=item).json()
     out["POST targets/test"] = c.post("/api/v1/targets/test", json={

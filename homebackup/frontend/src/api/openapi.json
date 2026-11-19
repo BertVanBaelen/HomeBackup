@@ -728,6 +728,52 @@
     }
    }
   },
+  "/api/v1/browse": {
+   "get": {
+    "summary": "Browse",
+    "operationId": "browse_api_v1_browse_get",
+    "parameters": [
+     {
+      "name": "path",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Path"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Listing"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
   "/api/v1/devices": {
    "get": {
     "summary": "Devices",
@@ -1087,6 +1133,40 @@
      "device"
     ],
     "title": "Device"
+   },
+   "Entry": {
+    "properties": {
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "path": {
+      "type": "string",
+      "title": "Path"
+     },
+     "dir": {
+      "type": "boolean",
+      "title": "Dir"
+     },
+     "size": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Size"
+     }
+    },
+    "type": "object",
+    "required": [
+     "name",
+     "path",
+     "dir"
+    ],
+    "title": "Entry"
    },
    "Folder": {
     "properties": {
@@ -1465,6 +1545,51 @@
      "last_success"
     ],
     "title": "ItemView"
+   },
+   "Listing": {
+    "properties": {
+     "path": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Path"
+     },
+     "parent": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Parent"
+     },
+     "entries": {
+      "items": {
+       "$ref": "#/components/schemas/Entry"
+      },
+      "type": "array",
+      "title": "Entries"
+     },
+     "truncated": {
+      "type": "boolean",
+      "title": "Truncated",
+      "default": false
+     }
+    },
+    "type": "object",
+    "required": [
+     "path",
+     "parent",
+     "entries"
+    ],
+    "title": "Listing"
    },
    "LogLine": {
     "properties": {
