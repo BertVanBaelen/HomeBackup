@@ -8,6 +8,11 @@ import i18n from '@/i18n'
 import { resolveLanguage, useHaEnv } from '@/lib/ha'
 import { Dashboard } from '@/pages/Dashboard'
 import { History } from '@/pages/History'
+import { ItemEditor } from '@/pages/ItemEditor'
+import { PlanPreview } from '@/pages/PlanPreview'
+import { RunDetail } from '@/pages/RunDetail'
+import { Settings } from '@/pages/Settings'
+import { Targets } from '@/pages/Targets'
 
 const queryClient = new QueryClient({ defaultOptions: { queries: { retry: 2, refetchOnWindowFocus: true } } })
 
@@ -36,6 +41,13 @@ function Shell() {
       <Routes>
         <Route index element={<Dashboard />} />
         <Route path="history" element={<History />} />
+        <Route path="items/new" element={<ItemEditor />} />
+        <Route path="items/:id" element={<ItemEditor />} />
+        <Route path="items/:id/plan" element={<PlanPreview />} />
+        <Route path="runs/:id" element={<RunDetail />} />
+        <Route path="targets" element={<Targets />} />
+        <Route path="targets/:id" element={<Targets />} />
+        <Route path="settings" element={<Settings />} />
         <Route path="*" element={<ComingSoon />} />
       </Routes>
     </div>

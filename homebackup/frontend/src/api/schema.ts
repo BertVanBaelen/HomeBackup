@@ -31,7 +31,98 @@ export interface paths {
         /** Items */
         get: operations["items_api_v1_items_get"];
         put?: never;
+        /** Create Item */
+        post: operations["create_item_api_v1_items_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/items/{item_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Item */
+        get: operations["item_api_v1_items__item_id__get"];
+        /** Update Item */
+        put: operations["update_item_api_v1_items__item_id__put"];
         post?: never;
+        /** Delete Item */
+        delete: operations["delete_item_api_v1_items__item_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/items/check": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Check Item
+         * @description Checks for unsaved editor values: nothing is stored.
+         */
+        post: operations["check_item_api_v1_items_check_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/plans": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Plan Unsaved */
+        post: operations["plan_unsaved_api_v1_plans_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/items/{item_id}/plan": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Plan */
+        get: operations["plan_api_v1_items__item_id__plan_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/items/{item_id}/run": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Run Now */
+        post: operations["run_now_api_v1_items__item_id__run_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -72,23 +163,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/items/{item_id}/run": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Run Now */
-        post: operations["run_now_api_v1_items__item_id__run_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/api/v1/runs/{run_id}/cancel": {
         parameters: {
             query?: never;
@@ -116,6 +190,59 @@ export interface paths {
         /** Targets */
         get: operations["targets_api_v1_targets_get"];
         put?: never;
+        /** Create Target */
+        post: operations["create_target_api_v1_targets_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/targets/{target_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Update Target */
+        put: operations["update_target_api_v1_targets__target_id__put"];
+        post?: never;
+        /** Delete Target */
+        delete: operations["delete_target_api_v1_targets__target_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/targets/test": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Test Target */
+        post: operations["test_target_api_v1_targets_test_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/devices": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Devices */
+        get: operations["devices_api_v1_devices_get"];
+        put?: never;
         post?: never;
         delete?: never;
         options?: never;
@@ -132,6 +259,92 @@ export interface paths {
         };
         /** Settings */
         get: operations["settings_api_v1_settings_get"];
+        /** Save Settings */
+        put: operations["save_settings_api_v1_settings_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/config": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Config Status */
+        get: operations["config_status_api_v1_config_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/config/check": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Config Check */
+        post: operations["config_check_api_v1_config_check_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/types": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Types */
+        get: operations["types_api_v1_types_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/types/refresh": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Refresh Types */
+        post: operations["refresh_types_api_v1_types_refresh_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/scripts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Scripts */
+        get: operations["scripts_api_v1_scripts_get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -169,6 +382,68 @@ export interface components {
             days_since_success: number;
             last_run: components["schemas"]["RunSummary"];
         };
+        /** BackupType */
+        BackupType: {
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
+            /**
+             * Version
+             * @default 1
+             */
+            version: string;
+            /**
+             * Builtin
+             * @default true
+             */
+            builtin: boolean;
+            /** Error */
+            error?: string | null;
+        };
+        /** Check */
+        Check: {
+            /**
+             * Level
+             * @enum {string}
+             */
+            level: "ok" | "warning" | "error";
+            message: components["schemas"]["Message"];
+        };
+        /** ConfigStatus */
+        ConfigStatus: {
+            /** Path */
+            path: string;
+            /** Valid */
+            valid: boolean;
+            /** Items */
+            items: number;
+            /** Targets */
+            targets: number;
+            /** Error */
+            error?: string | null;
+        };
+        /** Device */
+        Device: {
+            /** Device */
+            device: string;
+            /** Uuid */
+            uuid?: string | null;
+            /** Label */
+            label?: string | null;
+            /** Filesystem */
+            filesystem?: string | null;
+        };
+        /** Folder */
+        Folder: {
+            /** Path */
+            path: string;
+            /**
+             * Tag
+             * @enum {string}
+             */
+            tag: "full" | "window" | "skipped";
+        };
         /** HTTPValidationError */
         HTTPValidationError: {
             /** Detail */
@@ -183,9 +458,12 @@ export interface components {
             /** On Failure */
             on_failure?: string | null;
         };
-        /** ItemView */
-        ItemView: {
-            /** Id */
+        /** Item */
+        Item: {
+            /**
+             * Id
+             * @default
+             */
             id: string;
             /** Name */
             name: string;
@@ -196,9 +474,66 @@ export interface components {
             enabled: boolean;
             /**
              * Type
-             * @enum {string}
+             * @default rsync
              */
-            type: "rsync" | "immich";
+            type: string;
+            /** Source */
+            source: string;
+            /** Target Id */
+            target_id: string;
+            /** Target Path */
+            target_path: string;
+            /** Immich Mode */
+            immich_mode?: ("recent" | "full") | null;
+            /** Window */
+            window?: number | null;
+            /** Window Unit */
+            window_unit?: ("months" | "days") | null;
+            /**
+             * Include Thumbs
+             * @default false
+             */
+            include_thumbs: boolean;
+            /**
+             * Delete
+             * @default false
+             */
+            delete: boolean;
+            /** Schedule */
+            schedule: string;
+            /** @default {} */
+            hooks: components["schemas"]["Hooks"];
+        };
+        /** ItemCheck */
+        ItemCheck: {
+            /** Checks */
+            checks: components["schemas"]["Check"][];
+            /** Schedule Valid */
+            schedule_valid: boolean;
+            /** Next Runs */
+            next_runs: string[];
+            /** Folders */
+            folders: components["schemas"]["Folder"][];
+        };
+        /** ItemView */
+        ItemView: {
+            /**
+             * Id
+             * @default
+             */
+            id: string;
+            /** Name */
+            name: string;
+            /**
+             * Enabled
+             * @default true
+             */
+            enabled: boolean;
+            /**
+             * Type
+             * @default rsync
+             */
+            type: string;
             /** Source */
             source: string;
             /** Target Id */
@@ -233,6 +568,21 @@ export interface components {
             /** Last Success */
             last_success: string | null;
         };
+        /** LogLine */
+        LogLine: {
+            /**
+             * T
+             * Format: date-time
+             */
+            t: string;
+            /**
+             * Level
+             * @enum {string}
+             */
+            level: "INFO" | "CMD" | "WARN" | "ERROR";
+            /** Msg */
+            msg: string;
+        };
         /**
          * Message
          * @description Language-neutral message: the UI translates `code` and fills in `params`.
@@ -248,6 +598,14 @@ export interface components {
                 [key: string]: string | number;
             };
         };
+        /** Plan */
+        Plan: {
+            /** Steps */
+            steps: components["schemas"]["Step"][];
+            /** Programs */
+            programs: string[];
+            error?: components["schemas"]["Message"] | null;
+        };
         /** Progress */
         Progress: {
             /** Run Id */
@@ -262,6 +620,44 @@ export interface components {
             speed: number;
             /** Eta S */
             eta_s: number;
+        };
+        /** RunDetail */
+        RunDetail: {
+            /** Id */
+            id: string;
+            /** Item Id */
+            item_id: string;
+            /**
+             * Trigger
+             * @enum {string}
+             */
+            trigger: "scheduled" | "manual" | "dry_run";
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "success" | "warning" | "failure" | "running";
+            /**
+             * Started
+             * Format: date-time
+             */
+            started: string;
+            /** Ended */
+            ended?: string | null;
+            /** Files */
+            files?: number | null;
+            /** Bytes */
+            bytes?: number | null;
+            /** Deleted */
+            deleted?: number | null;
+            /** Exit Code */
+            exit_code?: number | null;
+            message?: components["schemas"]["Message"] | null;
+            /**
+             * Steps
+             * @default []
+             */
+            steps: components["schemas"]["StepResult"][];
         };
         /** RunPage */
         RunPage: {
@@ -307,6 +703,12 @@ export interface components {
             exit_code?: number | null;
             message?: components["schemas"]["Message"] | null;
         };
+        /** RunWithLog */
+        RunWithLog: {
+            run: components["schemas"]["RunDetail"];
+            /** Log */
+            log: components["schemas"]["LogLine"][];
+        };
         /** Settings */
         Settings: {
             /** Hook Success */
@@ -338,7 +740,7 @@ export interface components {
             language: "auto" | "en" | "nl";
             /**
              * Time Zone
-             * @default Europe/Brussels
+             * @default UTC
              */
             time_zone: string;
             /**
@@ -364,19 +766,59 @@ export interface components {
             /** Attention */
             attention: components["schemas"]["Attention"][];
         };
-        /** TargetStatus */
-        TargetStatus: {
-            /** Ok */
-            ok: boolean;
-            problem?: components["schemas"]["Message"] | null;
-            /** Device */
-            device?: string | null;
-            /** Free Bytes */
-            free_bytes?: number | null;
+        /** Step */
+        Step: {
+            /** N */
+            n: number;
+            /** Origin */
+            origin: string;
+            title: components["schemas"]["Message"];
+            why?: components["schemas"]["Message"] | null;
+            /**
+             * Argv
+             * @default []
+             */
+            argv: string[];
+            /**
+             * Skipped
+             * @default false
+             */
+            skipped: boolean;
         };
-        /** TargetView */
-        TargetView: {
-            /** Id */
+        /** StepResult */
+        StepResult: {
+            /** N */
+            n: number;
+            /** Origin */
+            origin: string;
+            title: components["schemas"]["Message"];
+            why?: components["schemas"]["Message"] | null;
+            /**
+             * Argv
+             * @default []
+             */
+            argv: string[];
+            /**
+             * Skipped
+             * @default false
+             */
+            skipped: boolean;
+            /** Exit Code */
+            exit_code?: number | null;
+            /** Duration S */
+            duration_s?: number | null;
+            /**
+             * Output
+             * @default []
+             */
+            output: string[];
+        };
+        /** Target */
+        Target: {
+            /**
+             * Id
+             * @default
+             */
             id: string;
             /** Name */
             name: string;
@@ -400,10 +842,43 @@ export interface components {
             /** Username */
             username?: string | null;
             /**
-             * Password Set
-             * @default false
+             * Mount Options
+             * @default
              */
-            password_set: boolean;
+            mount_options: string;
+            /** Rsync Flags */
+            rsync_flags: string;
+            /** Min Free Bytes */
+            min_free_bytes: number;
+        };
+        /** TargetIn */
+        TargetIn: {
+            /**
+             * Id
+             * @default
+             */
+            id: string;
+            /** Name */
+            name: string;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "drive" | "share";
+            /** Filesystem */
+            filesystem?: string | null;
+            /** Find By */
+            find_by?: ("uuid" | "label") | null;
+            /** Ident */
+            ident?: string | null;
+            /** Protocol */
+            protocol?: ("smb" | "nfs") | null;
+            /** Host */
+            host?: string | null;
+            /** Share */
+            share?: string | null;
+            /** Username */
+            username?: string | null;
             /**
              * Mount Options
              * @default
@@ -413,6 +888,68 @@ export interface components {
             rsync_flags: string;
             /** Min Free Bytes */
             min_free_bytes: number;
+            /** Password */
+            password?: string | null;
+        };
+        /** TargetStatus */
+        TargetStatus: {
+            /** Ok */
+            ok: boolean;
+            problem?: components["schemas"]["Message"] | null;
+            /** Device */
+            device?: string | null;
+            /** Free Bytes */
+            free_bytes?: number | null;
+        };
+        /** TargetTest */
+        TargetTest: {
+            /** Ok */
+            ok: boolean;
+            problem?: components["schemas"]["Message"] | null;
+            /** Device */
+            device?: string | null;
+            /** Free Bytes */
+            free_bytes?: number | null;
+        };
+        /** TargetView */
+        TargetView: {
+            /**
+             * Id
+             * @default
+             */
+            id: string;
+            /** Name */
+            name: string;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "drive" | "share";
+            /** Filesystem */
+            filesystem?: string | null;
+            /** Find By */
+            find_by?: ("uuid" | "label") | null;
+            /** Ident */
+            ident?: string | null;
+            /** Protocol */
+            protocol?: ("smb" | "nfs") | null;
+            /** Host */
+            host?: string | null;
+            /** Share */
+            share?: string | null;
+            /** Username */
+            username?: string | null;
+            /**
+             * Mount Options
+             * @default
+             */
+            mount_options: string;
+            /** Rsync Flags */
+            rsync_flags: string;
+            /** Min Free Bytes */
+            min_free_bytes: number;
+            /** Password Set */
+            password_set: boolean;
             status: components["schemas"]["TargetStatus"];
             /** Used By */
             used_by: string[];
@@ -475,6 +1012,268 @@ export interface operations {
             };
         };
     };
+    create_item_api_v1_items_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Item"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Item"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    item_api_v1_items__item_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                item_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Item"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_item_api_v1_items__item_id__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                item_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Item"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Item"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_item_api_v1_items__item_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                item_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    check_item_api_v1_items_check_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Item"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ItemCheck"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    plan_unsaved_api_v1_plans_post: {
+        parameters: {
+            query?: {
+                dry_run?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Item"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Plan"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    plan_api_v1_items__item_id__plan_get: {
+        parameters: {
+            query?: {
+                dry_run?: boolean;
+            };
+            header?: never;
+            path: {
+                item_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Plan"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    run_now_api_v1_items__item_id__run_post: {
+        parameters: {
+            query?: {
+                dry_run?: boolean;
+            };
+            header?: never;
+            path: {
+                item_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Status"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     runs_api_v1_runs_get: {
         parameters: {
             query?: {
@@ -526,38 +1325,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["RunSummary"];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    run_now_api_v1_items__item_id__run_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                item_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Status"];
+                    "application/json": components["schemas"]["RunWithLog"];
                 };
             };
             /** @description Validation Error */
@@ -583,12 +1351,12 @@ export interface operations {
         requestBody?: never;
         responses: {
             /** @description Successful Response */
-            200: {
+            202: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["RunSummary"];
+                    "application/json": components["schemas"]["Status"];
                 };
             };
             /** @description Validation Error */
@@ -622,6 +1390,156 @@ export interface operations {
             };
         };
     };
+    create_target_api_v1_targets_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TargetIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Target"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_target_api_v1_targets__target_id__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                target_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TargetIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Target"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_target_api_v1_targets__target_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                target_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    test_target_api_v1_targets_test_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TargetIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TargetTest"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    devices_api_v1_devices_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Device"][];
+                };
+            };
+        };
+    };
     settings_api_v1_settings_get: {
         parameters: {
             query?: never;
@@ -638,6 +1556,139 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Settings"];
+                };
+            };
+        };
+    };
+    save_settings_api_v1_settings_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Settings"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Settings"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    config_status_api_v1_config_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ConfigStatus"];
+                };
+            };
+        };
+    };
+    config_check_api_v1_config_check_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ConfigStatus"];
+                };
+            };
+        };
+    };
+    types_api_v1_types_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BackupType"][];
+                };
+            };
+        };
+    };
+    refresh_types_api_v1_types_refresh_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BackupType"][];
+                };
+            };
+        };
+    };
+    scripts_api_v1_scripts_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string[];
                 };
             };
         };

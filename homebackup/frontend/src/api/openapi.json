@@ -2,7 +2,7 @@
  "openapi": "3.1.0",
  "info": {
   "title": "HomeBackup",
-  "version": "0.1.0"
+  "version": "0.3.0"
  },
  "paths": {
   "/api/v1/status": {
@@ -38,6 +38,345 @@
          },
          "type": "array",
          "title": "Response Items Api V1 Items Get"
+        }
+       }
+      }
+     }
+    }
+   },
+   "post": {
+    "summary": "Create Item",
+    "operationId": "create_item_api_v1_items_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Item"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "201": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Item"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/items/{item_id}": {
+   "get": {
+    "summary": "Item",
+    "operationId": "item_api_v1_items__item_id__get",
+    "parameters": [
+     {
+      "name": "item_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Item Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Item"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "put": {
+    "summary": "Update Item",
+    "operationId": "update_item_api_v1_items__item_id__put",
+    "parameters": [
+     {
+      "name": "item_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Item Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Item"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Item"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "delete": {
+    "summary": "Delete Item",
+    "operationId": "delete_item_api_v1_items__item_id__delete",
+    "parameters": [
+     {
+      "name": "item_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Item Id"
+      }
+     }
+    ],
+    "responses": {
+     "204": {
+      "description": "Successful Response"
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/items/check": {
+   "post": {
+    "summary": "Check Item",
+    "description": "Checks for unsaved editor values: nothing is stored.",
+    "operationId": "check_item_api_v1_items_check_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Item"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ItemCheck"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/plans": {
+   "post": {
+    "summary": "Plan Unsaved",
+    "operationId": "plan_unsaved_api_v1_plans_post",
+    "parameters": [
+     {
+      "name": "dry_run",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "boolean",
+       "default": false,
+       "title": "Dry Run"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Item"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Plan"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/items/{item_id}/plan": {
+   "get": {
+    "summary": "Plan",
+    "operationId": "plan_api_v1_items__item_id__plan_get",
+    "parameters": [
+     {
+      "name": "item_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Item Id"
+      }
+     },
+     {
+      "name": "dry_run",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "boolean",
+       "default": false,
+       "title": "Dry Run"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Plan"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/items/{item_id}/run": {
+   "post": {
+    "summary": "Run Now",
+    "operationId": "run_now_api_v1_items__item_id__run_post",
+    "parameters": [
+     {
+      "name": "item_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Item Id"
+      }
+     },
+     {
+      "name": "dry_run",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "boolean",
+       "default": false,
+       "title": "Dry Run"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Status"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
         }
        }
       }
@@ -157,46 +496,7 @@
       "content": {
        "application/json": {
         "schema": {
-         "$ref": "#/components/schemas/RunSummary"
-        }
-       }
-      }
-     },
-     "422": {
-      "description": "Validation Error",
-      "content": {
-       "application/json": {
-        "schema": {
-         "$ref": "#/components/schemas/HTTPValidationError"
-        }
-       }
-      }
-     }
-    }
-   }
-  },
-  "/api/v1/items/{item_id}/run": {
-   "post": {
-    "summary": "Run Now",
-    "operationId": "run_now_api_v1_items__item_id__run_post",
-    "parameters": [
-     {
-      "name": "item_id",
-      "in": "path",
-      "required": true,
-      "schema": {
-       "type": "string",
-       "title": "Item Id"
-      }
-     }
-    ],
-    "responses": {
-     "200": {
-      "description": "Successful Response",
-      "content": {
-       "application/json": {
-        "schema": {
-         "$ref": "#/components/schemas/Status"
+         "$ref": "#/components/schemas/RunWithLog"
         }
        }
       }
@@ -230,12 +530,12 @@
      }
     ],
     "responses": {
-     "200": {
+     "202": {
       "description": "Successful Response",
       "content": {
        "application/json": {
         "schema": {
-         "$ref": "#/components/schemas/RunSummary"
+         "$ref": "#/components/schemas/Status"
         }
        }
       }
@@ -273,6 +573,181 @@
       }
      }
     }
+   },
+   "post": {
+    "summary": "Create Target",
+    "operationId": "create_target_api_v1_targets_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/TargetIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "201": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Target"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/targets/{target_id}": {
+   "put": {
+    "summary": "Update Target",
+    "operationId": "update_target_api_v1_targets__target_id__put",
+    "parameters": [
+     {
+      "name": "target_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Target Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/TargetIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Target"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "delete": {
+    "summary": "Delete Target",
+    "operationId": "delete_target_api_v1_targets__target_id__delete",
+    "parameters": [
+     {
+      "name": "target_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Target Id"
+      }
+     }
+    ],
+    "responses": {
+     "204": {
+      "description": "Successful Response"
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/targets/test": {
+   "post": {
+    "summary": "Test Target",
+    "operationId": "test_target_api_v1_targets_test_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/TargetIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/TargetTest"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/devices": {
+   "get": {
+    "summary": "Devices",
+    "operationId": "devices_api_v1_devices_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "$ref": "#/components/schemas/Device"
+         },
+         "type": "array",
+         "title": "Response Devices Api V1 Devices Get"
+        }
+       }
+      }
+     }
+    }
    }
   },
   "/api/v1/settings": {
@@ -286,6 +761,144 @@
        "application/json": {
         "schema": {
          "$ref": "#/components/schemas/Settings"
+        }
+       }
+      }
+     }
+    }
+   },
+   "put": {
+    "summary": "Save Settings",
+    "operationId": "save_settings_api_v1_settings_put",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Settings"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Settings"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/config": {
+   "get": {
+    "summary": "Config Status",
+    "operationId": "config_status_api_v1_config_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ConfigStatus"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/config/check": {
+   "post": {
+    "summary": "Config Check",
+    "operationId": "config_check_api_v1_config_check_post",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ConfigStatus"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/types": {
+   "get": {
+    "summary": "Types",
+    "operationId": "types_api_v1_types_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "$ref": "#/components/schemas/BackupType"
+         },
+         "type": "array",
+         "title": "Response Types Api V1 Types Get"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/types/refresh": {
+   "post": {
+    "summary": "Refresh Types",
+    "operationId": "refresh_types_api_v1_types_refresh_post",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "$ref": "#/components/schemas/BackupType"
+         },
+         "type": "array",
+         "title": "Response Refresh Types Api V1 Types Refresh Post"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/scripts": {
+   "get": {
+    "summary": "Scripts",
+    "operationId": "scripts_api_v1_scripts_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "type": "string"
+         },
+         "type": "array",
+         "title": "Response Scripts Api V1 Scripts Get"
         }
        }
       }
@@ -328,6 +941,175 @@
      "last_run"
     ],
     "title": "Attention"
+   },
+   "BackupType": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "version": {
+      "type": "string",
+      "title": "Version",
+      "default": "1"
+     },
+     "builtin": {
+      "type": "boolean",
+      "title": "Builtin",
+      "default": true
+     },
+     "error": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Error"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "name"
+    ],
+    "title": "BackupType"
+   },
+   "Check": {
+    "properties": {
+     "level": {
+      "type": "string",
+      "enum": [
+       "ok",
+       "warning",
+       "error"
+      ],
+      "title": "Level"
+     },
+     "message": {
+      "$ref": "#/components/schemas/Message"
+     }
+    },
+    "type": "object",
+    "required": [
+     "level",
+     "message"
+    ],
+    "title": "Check"
+   },
+   "ConfigStatus": {
+    "properties": {
+     "path": {
+      "type": "string",
+      "title": "Path"
+     },
+     "valid": {
+      "type": "boolean",
+      "title": "Valid"
+     },
+     "items": {
+      "type": "integer",
+      "title": "Items"
+     },
+     "targets": {
+      "type": "integer",
+      "title": "Targets"
+     },
+     "error": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Error"
+     }
+    },
+    "type": "object",
+    "required": [
+     "path",
+     "valid",
+     "items",
+     "targets"
+    ],
+    "title": "ConfigStatus"
+   },
+   "Device": {
+    "properties": {
+     "device": {
+      "type": "string",
+      "title": "Device"
+     },
+     "uuid": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Uuid"
+     },
+     "label": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Label"
+     },
+     "filesystem": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Filesystem"
+     }
+    },
+    "type": "object",
+    "required": [
+     "device"
+    ],
+    "title": "Device"
+   },
+   "Folder": {
+    "properties": {
+     "path": {
+      "type": "string",
+      "title": "Path"
+     },
+     "tag": {
+      "type": "string",
+      "enum": [
+       "full",
+       "window",
+       "skipped"
+      ],
+      "title": "Tag"
+     }
+    },
+    "type": "object",
+    "required": [
+     "path",
+     "tag"
+    ],
+    "title": "Folder"
    },
    "HTTPValidationError": {
     "properties": {
@@ -381,14 +1163,17 @@
     "type": "object",
     "title": "Hooks"
    },
-   "ItemView": {
+   "Item": {
     "properties": {
      "id": {
       "type": "string",
-      "title": "Id"
+      "title": "Id",
+      "default": ""
      },
      "name": {
       "type": "string",
+      "maxLength": 64,
+      "minLength": 1,
       "title": "Name"
      },
      "enabled": {
@@ -398,14 +1183,12 @@
      },
      "type": {
       "type": "string",
-      "enum": [
-       "rsync",
-       "immich"
-      ],
-      "title": "Type"
+      "title": "Type",
+      "default": "rsync"
      },
      "source": {
       "type": "string",
+      "pattern": "^/",
       "title": "Source"
      },
      "target_id": {
@@ -414,6 +1197,152 @@
      },
      "target_path": {
       "type": "string",
+      "minLength": 1,
+      "title": "Target Path"
+     },
+     "immich_mode": {
+      "anyOf": [
+       {
+        "type": "string",
+        "enum": [
+         "recent",
+         "full"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Immich Mode"
+     },
+     "window": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Window"
+     },
+     "window_unit": {
+      "anyOf": [
+       {
+        "type": "string",
+        "enum": [
+         "months",
+         "days"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Window Unit"
+     },
+     "include_thumbs": {
+      "type": "boolean",
+      "title": "Include Thumbs",
+      "default": false
+     },
+     "delete": {
+      "type": "boolean",
+      "title": "Delete",
+      "default": false
+     },
+     "schedule": {
+      "type": "string",
+      "title": "Schedule"
+     },
+     "hooks": {
+      "$ref": "#/components/schemas/Hooks",
+      "default": {}
+     }
+    },
+    "type": "object",
+    "required": [
+     "name",
+     "source",
+     "target_id",
+     "target_path",
+     "schedule"
+    ],
+    "title": "Item"
+   },
+   "ItemCheck": {
+    "properties": {
+     "checks": {
+      "items": {
+       "$ref": "#/components/schemas/Check"
+      },
+      "type": "array",
+      "title": "Checks"
+     },
+     "schedule_valid": {
+      "type": "boolean",
+      "title": "Schedule Valid"
+     },
+     "next_runs": {
+      "items": {
+       "type": "string",
+       "format": "date-time"
+      },
+      "type": "array",
+      "title": "Next Runs"
+     },
+     "folders": {
+      "items": {
+       "$ref": "#/components/schemas/Folder"
+      },
+      "type": "array",
+      "title": "Folders"
+     }
+    },
+    "type": "object",
+    "required": [
+     "checks",
+     "schedule_valid",
+     "next_runs",
+     "folders"
+    ],
+    "title": "ItemCheck"
+   },
+   "ItemView": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id",
+      "default": ""
+     },
+     "name": {
+      "type": "string",
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Name"
+     },
+     "enabled": {
+      "type": "boolean",
+      "title": "Enabled",
+      "default": true
+     },
+     "type": {
+      "type": "string",
+      "title": "Type",
+      "default": "rsync"
+     },
+     "source": {
+      "type": "string",
+      "pattern": "^/",
+      "title": "Source"
+     },
+     "target_id": {
+      "type": "string",
+      "title": "Target Id"
+     },
+     "target_path": {
+      "type": "string",
+      "minLength": 1,
       "title": "Target Path"
      },
      "immich_mode": {
@@ -525,9 +1454,7 @@
     },
     "type": "object",
     "required": [
-     "id",
      "name",
-     "type",
      "source",
      "target_id",
      "target_path",
@@ -538,6 +1465,36 @@
      "last_success"
     ],
     "title": "ItemView"
+   },
+   "LogLine": {
+    "properties": {
+     "t": {
+      "type": "string",
+      "format": "date-time",
+      "title": "T"
+     },
+     "level": {
+      "type": "string",
+      "enum": [
+       "INFO",
+       "CMD",
+       "WARN",
+       "ERROR"
+      ],
+      "title": "Level"
+     },
+     "msg": {
+      "type": "string",
+      "title": "Msg"
+     }
+    },
+    "type": "object",
+    "required": [
+     "t",
+     "level",
+     "msg"
+    ],
+    "title": "LogLine"
    },
    "Message": {
     "properties": {
@@ -567,6 +1524,40 @@
     ],
     "title": "Message",
     "description": "Language-neutral message: the UI translates `code` and fills in `params`."
+   },
+   "Plan": {
+    "properties": {
+     "steps": {
+      "items": {
+       "$ref": "#/components/schemas/Step"
+      },
+      "type": "array",
+      "title": "Steps"
+     },
+     "programs": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Programs"
+     },
+     "error": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/Message"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     }
+    },
+    "type": "object",
+    "required": [
+     "steps",
+     "programs"
+    ],
+    "title": "Plan"
    },
    "Progress": {
     "properties": {
@@ -605,6 +1596,125 @@
      "eta_s"
     ],
     "title": "Progress"
+   },
+   "RunDetail": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "item_id": {
+      "type": "string",
+      "title": "Item Id"
+     },
+     "trigger": {
+      "type": "string",
+      "enum": [
+       "scheduled",
+       "manual",
+       "dry_run"
+      ],
+      "title": "Trigger"
+     },
+     "status": {
+      "type": "string",
+      "enum": [
+       "success",
+       "warning",
+       "failure",
+       "running"
+      ],
+      "title": "Status"
+     },
+     "started": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Started"
+     },
+     "ended": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date-time"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Ended"
+     },
+     "files": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Files"
+     },
+     "bytes": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Bytes"
+     },
+     "deleted": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Deleted"
+     },
+     "exit_code": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Exit Code"
+     },
+     "message": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/Message"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "steps": {
+      "items": {
+       "$ref": "#/components/schemas/StepResult"
+      },
+      "type": "array",
+      "title": "Steps",
+      "default": []
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "item_id",
+     "trigger",
+     "status",
+     "started"
+    ],
+    "title": "RunDetail"
    },
    "RunPage": {
     "properties": {
@@ -746,6 +1856,26 @@
     ],
     "title": "RunSummary"
    },
+   "RunWithLog": {
+    "properties": {
+     "run": {
+      "$ref": "#/components/schemas/RunDetail"
+     },
+     "log": {
+      "items": {
+       "$ref": "#/components/schemas/LogLine"
+      },
+      "type": "array",
+      "title": "Log"
+     }
+    },
+    "type": "object",
+    "required": [
+     "run",
+     "log"
+    ],
+    "title": "RunWithLog"
+   },
    "Settings": {
     "properties": {
      "hook_success": {
@@ -783,16 +1913,19 @@
      },
      "overdue_days": {
       "type": "integer",
+      "minimum": 1.0,
       "title": "Overdue Days",
       "default": 7
      },
      "keep_runs": {
       "type": "integer",
+      "minimum": 1.0,
       "title": "Keep Runs",
       "default": 30
      },
      "keep_days": {
       "type": "integer",
+      "minimum": 1.0,
       "title": "Keep Days",
       "default": 90
      },
@@ -809,7 +1942,7 @@
      "time_zone": {
       "type": "string",
       "title": "Time Zone",
-      "default": "Europe/Brussels"
+      "default": "UTC"
      },
      "log_level": {
       "type": "string",
@@ -868,13 +2001,20 @@
     ],
     "title": "Status"
    },
-   "TargetStatus": {
+   "Step": {
     "properties": {
-     "ok": {
-      "type": "boolean",
-      "title": "Ok"
+     "n": {
+      "type": "integer",
+      "title": "N"
      },
-     "problem": {
+     "origin": {
+      "type": "string",
+      "title": "Origin"
+     },
+     "title": {
+      "$ref": "#/components/schemas/Message"
+     },
+     "why": {
       "anyOf": [
        {
         "$ref": "#/components/schemas/Message"
@@ -884,18 +2024,65 @@
        }
       ]
      },
-     "device": {
+     "argv": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Argv",
+      "default": []
+     },
+     "skipped": {
+      "type": "boolean",
+      "title": "Skipped",
+      "default": false
+     }
+    },
+    "type": "object",
+    "required": [
+     "n",
+     "origin",
+     "title"
+    ],
+    "title": "Step"
+   },
+   "StepResult": {
+    "properties": {
+     "n": {
+      "type": "integer",
+      "title": "N"
+     },
+     "origin": {
+      "type": "string",
+      "title": "Origin"
+     },
+     "title": {
+      "$ref": "#/components/schemas/Message"
+     },
+     "why": {
       "anyOf": [
        {
-        "type": "string"
+        "$ref": "#/components/schemas/Message"
        },
        {
         "type": "null"
        }
-      ],
-      "title": "Device"
+      ]
      },
-     "free_bytes": {
+     "argv": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Argv",
+      "default": []
+     },
+     "skipped": {
+      "type": "boolean",
+      "title": "Skipped",
+      "default": false
+     },
+     "exit_code": {
       "anyOf": [
        {
         "type": "integer"
@@ -904,23 +2091,47 @@
         "type": "null"
        }
       ],
-      "title": "Free Bytes"
+      "title": "Exit Code"
+     },
+     "duration_s": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Duration S"
+     },
+     "output": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Output",
+      "default": []
      }
     },
     "type": "object",
     "required": [
-     "ok"
+     "n",
+     "origin",
+     "title"
     ],
-    "title": "TargetStatus"
+    "title": "StepResult"
    },
-   "TargetView": {
+   "Target": {
     "properties": {
      "id": {
       "type": "string",
-      "title": "Id"
+      "title": "Id",
+      "default": ""
      },
      "name": {
       "type": "string",
+      "maxLength": 64,
+      "minLength": 1,
       "title": "Name"
      },
      "kind": {
@@ -1016,10 +2227,135 @@
       ],
       "title": "Username"
      },
-     "password_set": {
-      "type": "boolean",
-      "title": "Password Set",
-      "default": false
+     "mount_options": {
+      "type": "string",
+      "title": "Mount Options",
+      "default": ""
+     },
+     "rsync_flags": {
+      "type": "string",
+      "title": "Rsync Flags"
+     },
+     "min_free_bytes": {
+      "type": "integer",
+      "minimum": 0.0,
+      "title": "Min Free Bytes"
+     }
+    },
+    "type": "object",
+    "required": [
+     "name",
+     "kind",
+     "rsync_flags",
+     "min_free_bytes"
+    ],
+    "title": "Target"
+   },
+   "TargetIn": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id",
+      "default": ""
+     },
+     "name": {
+      "type": "string",
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Name"
+     },
+     "kind": {
+      "type": "string",
+      "enum": [
+       "drive",
+       "share"
+      ],
+      "title": "Kind"
+     },
+     "filesystem": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Filesystem"
+     },
+     "find_by": {
+      "anyOf": [
+       {
+        "type": "string",
+        "enum": [
+         "uuid",
+         "label"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Find By"
+     },
+     "ident": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Ident"
+     },
+     "protocol": {
+      "anyOf": [
+       {
+        "type": "string",
+        "enum": [
+         "smb",
+         "nfs"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Protocol"
+     },
+     "host": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Host"
+     },
+     "share": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Share"
+     },
+     "username": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Username"
      },
      "mount_options": {
       "type": "string",
@@ -1032,7 +2368,243 @@
      },
      "min_free_bytes": {
       "type": "integer",
+      "minimum": 0.0,
       "title": "Min Free Bytes"
+     },
+     "password": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Password"
+     }
+    },
+    "type": "object",
+    "required": [
+     "name",
+     "kind",
+     "rsync_flags",
+     "min_free_bytes"
+    ],
+    "title": "TargetIn"
+   },
+   "TargetStatus": {
+    "properties": {
+     "ok": {
+      "type": "boolean",
+      "title": "Ok"
+     },
+     "problem": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/Message"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "device": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Device"
+     },
+     "free_bytes": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Free Bytes"
+     }
+    },
+    "type": "object",
+    "required": [
+     "ok"
+    ],
+    "title": "TargetStatus"
+   },
+   "TargetTest": {
+    "properties": {
+     "ok": {
+      "type": "boolean",
+      "title": "Ok"
+     },
+     "problem": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/Message"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "device": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Device"
+     },
+     "free_bytes": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Free Bytes"
+     }
+    },
+    "type": "object",
+    "required": [
+     "ok"
+    ],
+    "title": "TargetTest"
+   },
+   "TargetView": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id",
+      "default": ""
+     },
+     "name": {
+      "type": "string",
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Name"
+     },
+     "kind": {
+      "type": "string",
+      "enum": [
+       "drive",
+       "share"
+      ],
+      "title": "Kind"
+     },
+     "filesystem": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Filesystem"
+     },
+     "find_by": {
+      "anyOf": [
+       {
+        "type": "string",
+        "enum": [
+         "uuid",
+         "label"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Find By"
+     },
+     "ident": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Ident"
+     },
+     "protocol": {
+      "anyOf": [
+       {
+        "type": "string",
+        "enum": [
+         "smb",
+         "nfs"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Protocol"
+     },
+     "host": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Host"
+     },
+     "share": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Share"
+     },
+     "username": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Username"
+     },
+     "mount_options": {
+      "type": "string",
+      "title": "Mount Options",
+      "default": ""
+     },
+     "rsync_flags": {
+      "type": "string",
+      "title": "Rsync Flags"
+     },
+     "min_free_bytes": {
+      "type": "integer",
+      "minimum": 0.0,
+      "title": "Min Free Bytes"
+     },
+     "password_set": {
+      "type": "boolean",
+      "title": "Password Set"
      },
      "status": {
       "$ref": "#/components/schemas/TargetStatus"
@@ -1047,11 +2619,11 @@
     },
     "type": "object",
     "required": [
-     "id",
      "name",
      "kind",
      "rsync_flags",
      "min_free_bytes",
+     "password_set",
      "status",
      "used_by"
     ],

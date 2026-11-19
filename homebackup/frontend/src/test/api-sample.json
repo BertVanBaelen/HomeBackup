@@ -1,16 +1,727 @@
 {
+ "targets": [
+  {
+   "id": "tg1",
+   "name": "usb-stick",
+   "kind": "drive",
+   "filesystem": "exfat",
+   "find_by": "uuid",
+   "ident": "3E4F-91AB",
+   "protocol": null,
+   "host": null,
+   "share": null,
+   "username": null,
+   "mount_options": "",
+   "rsync_flags": "-rt --no-perms --no-owner --no-group --modify-window=2",
+   "min_free_bytes": 10737418240,
+   "password_set": false,
+   "status": {
+    "ok": true,
+    "problem": null,
+    "device": "/dev/sda2",
+    "free_bytes": null
+   },
+   "used_by": [
+    "it3",
+    "it4"
+   ]
+  },
+  {
+   "id": "tg2",
+   "name": "usb-archive",
+   "kind": "drive",
+   "filesystem": "ext4",
+   "find_by": "label",
+   "ident": "HB-ARCHIVE",
+   "protocol": null,
+   "host": null,
+   "share": null,
+   "username": null,
+   "mount_options": "",
+   "rsync_flags": "-a",
+   "min_free_bytes": 10737418240,
+   "password_set": false,
+   "status": {
+    "ok": false,
+    "problem": {
+     "code": "drive_not_found",
+     "params": {}
+    },
+    "device": null,
+    "free_bytes": null
+   },
+   "used_by": [
+    "it1"
+   ]
+  },
+  {
+   "id": "tg3",
+   "name": "nas-backup",
+   "kind": "share",
+   "filesystem": null,
+   "find_by": null,
+   "ident": null,
+   "protocol": "smb",
+   "host": "nas.local",
+   "share": "backup",
+   "username": "homebackup",
+   "mount_options": "",
+   "rsync_flags": "-rt --no-perms --no-owner --no-group",
+   "min_free_bytes": 10737418240,
+   "password_set": true,
+   "status": {
+    "ok": true,
+    "problem": null,
+    "device": null,
+    "free_bytes": 442381631488
+   },
+   "used_by": [
+    "it2",
+    "it5"
+   ]
+  }
+ ],
+ "settings": {
+  "hook_success": "script.backup_ok",
+  "hook_warning": "script.backup_warn",
+  "hook_failure": "script.backup_failed",
+  "overdue_days": 7,
+  "keep_runs": 30,
+  "keep_days": 90,
+  "language": "auto",
+  "time_zone": "Europe/Brussels",
+  "log_level": "info"
+ },
+ "config": {
+  "path": "C:\\Temp\\tmp70jdkwbe\\homebackup.yaml",
+  "valid": true,
+  "items": 5,
+  "targets": 3,
+  "error": null
+ },
+ "types": [
+  {
+   "id": "rsync",
+   "name": "Generic rsync",
+   "version": "1",
+   "builtin": true,
+   "error": null
+  }
+ ],
+ "scripts": [
+  "script.backup_failed",
+  "script.backup_ok",
+  "script.backup_warn",
+  "script.notify_phone"
+ ],
+ "devices": [
+  {
+   "device": "/dev/sda2",
+   "uuid": "3E4F-91AB",
+   "label": "",
+   "filesystem": "exfat"
+  },
+  {
+   "device": "/dev/sdb1",
+   "uuid": "b1e2c3d4-0000-4a4a-9c9c-112233445566",
+   "label": "SPARE",
+   "filesystem": "ext4"
+  }
+ ],
+ "items/it5": {
+  "id": "it5",
+  "name": "ha-config",
+  "enabled": true,
+  "type": "rsync",
+  "source": "/homeassistant",
+  "target_id": "tg3",
+  "target_path": "homeassistant",
+  "immich_mode": null,
+  "window": null,
+  "window_unit": null,
+  "include_thumbs": false,
+  "delete": false,
+  "schedule": "30 1 * * *",
+  "hooks": {
+   "on_success": null,
+   "on_warning": null,
+   "on_failure": null
+  }
+ },
+ "items/it4": {
+  "id": "it4",
+  "name": "immich-recent",
+  "enabled": true,
+  "type": "immich",
+  "source": "/media/immich",
+  "target_id": "tg1",
+  "target_path": "immich",
+  "immich_mode": "recent",
+  "window": 2,
+  "window_unit": "months",
+  "include_thumbs": false,
+  "delete": false,
+  "schedule": "0 3 * * *",
+  "hooks": {
+   "on_success": null,
+   "on_warning": null,
+   "on_failure": "script.backup_failed"
+  }
+ },
+ "items/it5/plan": {
+  "steps": [
+   {
+    "n": 1,
+    "origin": "core",
+    "title": {
+     "code": "step_mount",
+     "params": {}
+    },
+    "why": {
+     "code": "why_mount_share",
+     "params": {}
+    },
+    "argv": [
+     "mount",
+     "-t",
+     "cifs",
+     "-o",
+     "credentials=C:\\Temp\\tmp70jdkwbe\\secrets\\tg3.cred,rw",
+     "//nas.local/backup",
+     "C:/Temp/tmp70jdkwbe/mnt/tg3"
+    ],
+    "skipped": false
+   },
+   {
+    "n": 2,
+    "origin": "core",
+    "title": {
+     "code": "step_df",
+     "params": {}
+    },
+    "why": {
+     "code": "why_df",
+     "params": {}
+    },
+    "argv": [
+     "df",
+     "--output=avail",
+     "-B1",
+     "C:/Temp/tmp70jdkwbe/mnt/tg3"
+    ],
+    "skipped": false
+   },
+   {
+    "n": 3,
+    "origin": "rsync",
+    "title": {
+     "code": "step_copy",
+     "params": {}
+    },
+    "why": {
+     "code": "why_copy",
+     "params": {}
+    },
+    "argv": [
+     "rsync",
+     "-rt",
+     "--no-perms",
+     "--no-owner",
+     "--no-group",
+     "--info=progress2",
+     "--outbuf=L",
+     "--stats",
+     "--mkpath",
+     "/homeassistant/",
+     "C:/Temp/tmp70jdkwbe/mnt/tg3/homeassistant/"
+    ],
+    "skipped": false
+   },
+   {
+    "n": 4,
+    "origin": "core",
+    "title": {
+     "code": "step_umount",
+     "params": {}
+    },
+    "why": {
+     "code": "why_umount",
+     "params": {}
+    },
+    "argv": [
+     "umount",
+     "C:/Temp/tmp70jdkwbe/mnt/tg3"
+    ],
+    "skipped": false
+   }
+  ],
+  "programs": [
+   "mount",
+   "umount",
+   "blkid",
+   "df",
+   "rsync",
+   "find"
+  ],
+  "error": null
+ },
+ "items/it4/plan": {
+  "steps": [],
+  "programs": [
+   "mount",
+   "umount",
+   "blkid",
+   "df",
+   "rsync",
+   "find"
+  ],
+  "error": {
+   "code": "type_not_installed",
+   "params": {
+    "type": "immich"
+   }
+  }
+ },
+ "runs/it5-20261110140900": {
+  "run": {
+   "id": "it5-20261110140900",
+   "item_id": "it5",
+   "trigger": "dry_run",
+   "status": "success",
+   "started": "2026-11-10T14:09:00.781000+01:00",
+   "ended": "2026-11-10T14:09:00.813000+01:00",
+   "files": 1204,
+   "bytes": 48962627174,
+   "deleted": 0,
+   "exit_code": 0,
+   "message": null,
+   "steps": [
+    {
+     "n": 1,
+     "origin": "core",
+     "title": {
+      "code": "step_mount",
+      "params": {}
+     },
+     "why": {
+      "code": "why_mount_share",
+      "params": {}
+     },
+     "argv": [
+      "mount",
+      "-t",
+      "cifs",
+      "-o",
+      "credentials=C:\\Temp\\tmp70jdkwbe\\secrets\\tg3.cred,rw",
+      "//nas.local/backup",
+      "C:/Temp/tmp70jdkwbe/mnt/tg3"
+     ],
+     "skipped": false,
+     "exit_code": 0,
+     "duration_s": 0.0,
+     "output": []
+    },
+    {
+     "n": 2,
+     "origin": "core",
+     "title": {
+      "code": "step_df",
+      "params": {}
+     },
+     "why": {
+      "code": "why_df",
+      "params": {}
+     },
+     "argv": [
+      "df",
+      "--output=avail",
+      "-B1",
+      "C:/Temp/tmp70jdkwbe/mnt/tg3"
+     ],
+     "skipped": false,
+     "exit_code": 0,
+     "duration_s": 0.0,
+     "output": [
+      "Avail",
+      "442381631488"
+     ]
+    },
+    {
+     "n": 3,
+     "origin": "rsync",
+     "title": {
+      "code": "step_copy",
+      "params": {}
+     },
+     "why": {
+      "code": "why_copy",
+      "params": {}
+     },
+     "argv": [
+      "rsync",
+      "-rt",
+      "--no-perms",
+      "--no-owner",
+      "--no-group",
+      "--info=progress2",
+      "--outbuf=L",
+      "--stats",
+      "--mkpath",
+      "--dry-run",
+      "/homeassistant/",
+      "C:/Temp/tmp70jdkwbe/mnt/tg3/homeassistant/"
+     ],
+     "skipped": false,
+     "exit_code": 0,
+     "duration_s": 0.0,
+     "output": [
+      "Number of regular files transferred: 1,204",
+      "Total transferred file size: 48,962,627,174 bytes",
+      "Number of deleted files: 0"
+     ]
+    },
+    {
+     "n": 4,
+     "origin": "core",
+     "title": {
+      "code": "step_umount",
+      "params": {}
+     },
+     "why": {
+      "code": "why_umount",
+      "params": {}
+     },
+     "argv": [
+      "umount",
+      "C:/Temp/tmp70jdkwbe/mnt/tg3"
+     ],
+     "skipped": false,
+     "exit_code": 0,
+     "duration_s": 0.0,
+     "output": []
+    }
+   ]
+  },
+  "log": [
+   {
+    "t": "2026-11-10T14:09:00.719000+01:00",
+    "level": "INFO",
+    "msg": "Run started \u00b7 manual \u00b7 ha-config"
+   },
+   {
+    "t": "2026-11-10T14:09:00.719000+01:00",
+    "level": "CMD",
+    "msg": "mount -t cifs -o credentials=C:\\Temp\\tmp70jdkwbe\\secrets\\tg3.cred,rw //nas.local/backup C:/Temp/tmp70jdkwbe/mnt/tg3"
+   },
+   {
+    "t": "2026-11-10T14:09:00.719000+01:00",
+    "level": "INFO",
+    "msg": "exit 0 \u00b7 0.0 s"
+   },
+   {
+    "t": "2026-11-10T14:09:00.719000+01:00",
+    "level": "CMD",
+    "msg": "df --output=avail -B1 C:/Temp/tmp70jdkwbe/mnt/tg3"
+   },
+   {
+    "t": "2026-11-10T14:09:00.719000+01:00",
+    "level": "INFO",
+    "msg": "Avail"
+   },
+   {
+    "t": "2026-11-10T14:09:00.719000+01:00",
+    "level": "INFO",
+    "msg": "442381631488"
+   },
+   {
+    "t": "2026-11-10T14:09:00.719000+01:00",
+    "level": "INFO",
+    "msg": "exit 0 \u00b7 0.0 s"
+   },
+   {
+    "t": "2026-11-10T14:09:00.734000+01:00",
+    "level": "CMD",
+    "msg": "rsync -rt --no-perms --no-owner --no-group --info=progress2 --outbuf=L --stats --mkpath /homeassistant/ C:/Temp/tmp70jdkwbe/mnt/tg3/homeassistant/"
+   },
+   {
+    "t": "2026-11-10T14:09:00.734000+01:00",
+    "level": "INFO",
+    "msg": "Number of regular files transferred: 1,204"
+   },
+   {
+    "t": "2026-11-10T14:09:00.734000+01:00",
+    "level": "INFO",
+    "msg": "Total transferred file size: 48,962,627,174 bytes"
+   },
+   {
+    "t": "2026-11-10T14:09:00.734000+01:00",
+    "level": "INFO",
+    "msg": "Number of deleted files: 0"
+   },
+   {
+    "t": "2026-11-10T14:09:00.734000+01:00",
+    "level": "INFO",
+    "msg": "exit 0 \u00b7 0.0 s"
+   },
+   {
+    "t": "2026-11-10T14:09:00.734000+01:00",
+    "level": "CMD",
+    "msg": "umount C:/Temp/tmp70jdkwbe/mnt/tg3"
+   },
+   {
+    "t": "2026-11-10T14:09:00.750000+01:00",
+    "level": "INFO",
+    "msg": "exit 0 \u00b7 0.0 s"
+   },
+   {
+    "t": "2026-11-10T14:09:00.750000+01:00",
+    "level": "INFO",
+    "msg": "Result: success"
+   },
+   {
+    "t": "2026-11-10T14:09:00.781000+01:00",
+    "level": "INFO",
+    "msg": "Run started \u00b7 dry_run \u00b7 ha-config"
+   },
+   {
+    "t": "2026-11-10T14:09:00.781000+01:00",
+    "level": "CMD",
+    "msg": "mount -t cifs -o credentials=C:\\Temp\\tmp70jdkwbe\\secrets\\tg3.cred,rw //nas.local/backup C:/Temp/tmp70jdkwbe/mnt/tg3"
+   },
+   {
+    "t": "2026-11-10T14:09:00.781000+01:00",
+    "level": "INFO",
+    "msg": "exit 0 \u00b7 0.0 s"
+   },
+   {
+    "t": "2026-11-10T14:09:00.797000+01:00",
+    "level": "CMD",
+    "msg": "df --output=avail -B1 C:/Temp/tmp70jdkwbe/mnt/tg3"
+   },
+   {
+    "t": "2026-11-10T14:09:00.797000+01:00",
+    "level": "INFO",
+    "msg": "Avail"
+   },
+   {
+    "t": "2026-11-10T14:09:00.797000+01:00",
+    "level": "INFO",
+    "msg": "442381631488"
+   },
+   {
+    "t": "2026-11-10T14:09:00.797000+01:00",
+    "level": "INFO",
+    "msg": "exit 0 \u00b7 0.0 s"
+   },
+   {
+    "t": "2026-11-10T14:09:00.797000+01:00",
+    "level": "CMD",
+    "msg": "rsync -rt --no-perms --no-owner --no-group --info=progress2 --outbuf=L --stats --mkpath --dry-run /homeassistant/ C:/Temp/tmp70jdkwbe/mnt/tg3/homeassistant/"
+   },
+   {
+    "t": "2026-11-10T14:09:00.797000+01:00",
+    "level": "INFO",
+    "msg": "Number of regular files transferred: 1,204"
+   },
+   {
+    "t": "2026-11-10T14:09:00.797000+01:00",
+    "level": "INFO",
+    "msg": "Total transferred file size: 48,962,627,174 bytes"
+   },
+   {
+    "t": "2026-11-10T14:09:00.797000+01:00",
+    "level": "INFO",
+    "msg": "Number of deleted files: 0"
+   },
+   {
+    "t": "2026-11-10T14:09:00.797000+01:00",
+    "level": "INFO",
+    "msg": "exit 0 \u00b7 0.0 s"
+   },
+   {
+    "t": "2026-11-10T14:09:00.813000+01:00",
+    "level": "CMD",
+    "msg": "umount C:/Temp/tmp70jdkwbe/mnt/tg3"
+   },
+   {
+    "t": "2026-11-10T14:09:00.813000+01:00",
+    "level": "INFO",
+    "msg": "exit 0 \u00b7 0.0 s"
+   },
+   {
+    "t": "2026-11-10T14:09:00.813000+01:00",
+    "level": "INFO",
+    "msg": "Result: success"
+   }
+  ]
+ },
+ "runs/it1-202611080400": {
+  "run": {
+   "id": "it1-202611080400",
+   "item_id": "it1",
+   "trigger": "scheduled",
+   "status": "failure",
+   "started": "2026-11-08T04:00:00+01:00",
+   "ended": "2026-11-08T04:00:00+01:00",
+   "files": null,
+   "bytes": null,
+   "deleted": null,
+   "exit_code": null,
+   "message": {
+    "code": "target_not_found",
+    "params": {
+     "target": "usb-archive",
+     "label": "HB-ARCHIVE"
+    }
+   },
+   "steps": []
+  },
+  "log": []
+ },
+ "POST items/check": {
+  "checks": [
+   {
+    "level": "ok",
+    "message": {
+     "code": "free_space",
+     "params": {
+      "free": 442381631488,
+      "min": 10737418240
+     }
+    }
+   }
+  ],
+  "schedule_valid": true,
+  "next_runs": [
+   "2026-11-11T01:30:00+01:00",
+   "2026-11-12T01:30:00+01:00",
+   "2026-11-13T01:30:00+01:00",
+   "2026-11-14T01:30:00+01:00",
+   "2026-11-15T01:30:00+01:00"
+  ],
+  "folders": [
+   {
+    "path": "/homeassistant/",
+    "tag": "full"
+   }
+  ]
+ },
+ "POST plans": {
+  "steps": [
+   {
+    "n": 1,
+    "origin": "core",
+    "title": {
+     "code": "step_mount",
+     "params": {}
+    },
+    "why": {
+     "code": "why_mount_share",
+     "params": {}
+    },
+    "argv": [
+     "mount",
+     "-t",
+     "cifs",
+     "-o",
+     "credentials=C:\\Temp\\tmp70jdkwbe\\secrets\\tg3.cred,rw",
+     "//nas.local/backup",
+     "C:/Temp/tmp70jdkwbe/mnt/tg3"
+    ],
+    "skipped": false
+   },
+   {
+    "n": 2,
+    "origin": "core",
+    "title": {
+     "code": "step_df",
+     "params": {}
+    },
+    "why": {
+     "code": "why_df",
+     "params": {}
+    },
+    "argv": [
+     "df",
+     "--output=avail",
+     "-B1",
+     "C:/Temp/tmp70jdkwbe/mnt/tg3"
+    ],
+    "skipped": false
+   },
+   {
+    "n": 3,
+    "origin": "rsync",
+    "title": {
+     "code": "step_copy",
+     "params": {}
+    },
+    "why": {
+     "code": "why_copy",
+     "params": {}
+    },
+    "argv": [
+     "rsync",
+     "-rt",
+     "--no-perms",
+     "--no-owner",
+     "--no-group",
+     "--info=progress2",
+     "--outbuf=L",
+     "--stats",
+     "--mkpath",
+     "/homeassistant/",
+     "C:/Temp/tmp70jdkwbe/mnt/tg3/homeassistant/"
+    ],
+    "skipped": false
+   },
+   {
+    "n": 4,
+    "origin": "core",
+    "title": {
+     "code": "step_umount",
+     "params": {}
+    },
+    "why": {
+     "code": "why_umount",
+     "params": {}
+    },
+    "argv": [
+     "umount",
+     "C:/Temp/tmp70jdkwbe/mnt/tg3"
+    ],
+    "skipped": false
+   }
+  ],
+  "programs": [
+   "mount",
+   "umount",
+   "blkid",
+   "df",
+   "rsync",
+   "find"
+  ],
+  "error": null
+ },
+ "POST targets/test": {
+  "ok": true,
+  "problem": null,
+  "device": "/dev/sda2",
+  "free_bytes": 442381631488
+ },
+ "_manual_run_id": "it5-20261110140900",
  "status": {
-  "now": "2026-11-10T14:09:00.094000+01:00",
+  "now": "2026-11-10T14:09:06.422000+01:00",
   "time_zone": "Europe/Brussels",
   "queue": [],
   "running": [
    {
-    "run_id": "it2-202611101400",
-    "percent": 47.0,
-    "bytes_done": 23016180285,
-    "bytes_total": 48962627174,
+    "run_id": "it2-20261110140900",
+    "percent": 5.0,
+    "bytes_done": 2448131358,
+    "bytes_total": 48962627160,
     "speed": 39845888,
-    "eta_s": 651
+    "eta_s": 114
    }
   ],
   "attention": [
@@ -118,11 +829,11 @@
    },
    "next_run": "2026-11-11T14:00:00+01:00",
    "last_run": {
-    "id": "it2-202611101400",
+    "id": "it2-20261110140900",
     "item_id": "it2",
     "trigger": "scheduled",
     "status": "running",
-    "started": "2026-11-10T14:00:00+01:00",
+    "started": "2026-11-10T14:09:00.344000+01:00",
     "ended": null,
     "files": null,
     "bytes": null,
@@ -308,107 +1019,14 @@
    "last_success": "2026-11-10T01:30:00+01:00"
   }
  ],
- "targets": [
-  {
-   "id": "tg1",
-   "name": "usb-stick",
-   "kind": "drive",
-   "filesystem": "exfat",
-   "find_by": "uuid",
-   "ident": "3E4F-91AB",
-   "protocol": null,
-   "host": null,
-   "share": null,
-   "username": null,
-   "password_set": false,
-   "mount_options": "",
-   "rsync_flags": "-rt --no-perms --no-owner --no-group --modify-window=2",
-   "min_free_bytes": 10737418240,
-   "status": {
-    "ok": true,
-    "problem": null,
-    "device": "/dev/sda2",
-    "free_bytes": 442381631488
-   },
-   "used_by": [
-    "it3",
-    "it4"
-   ]
-  },
-  {
-   "id": "tg2",
-   "name": "usb-archive",
-   "kind": "drive",
-   "filesystem": "ext4",
-   "find_by": "label",
-   "ident": "HB-ARCHIVE",
-   "protocol": null,
-   "host": null,
-   "share": null,
-   "username": null,
-   "password_set": false,
-   "mount_options": "",
-   "rsync_flags": "-a",
-   "min_free_bytes": 10737418240,
-   "status": {
-    "ok": false,
-    "problem": {
-     "code": "drive_not_found",
-     "params": {}
-    },
-    "device": null,
-    "free_bytes": null
-   },
-   "used_by": [
-    "it1"
-   ]
-  },
-  {
-   "id": "tg3",
-   "name": "nas-backup",
-   "kind": "share",
-   "filesystem": null,
-   "find_by": null,
-   "ident": null,
-   "protocol": "smb",
-   "host": "nas.local",
-   "share": "backup",
-   "username": "homebackup",
-   "password_set": true,
-   "mount_options": "",
-   "rsync_flags": "-rt --no-perms --no-owner --no-group",
-   "min_free_bytes": 10737418240,
-   "status": {
-    "ok": true,
-    "problem": null,
-    "device": null,
-    "free_bytes": 3408486046105
-   },
-   "used_by": [
-    "it2",
-    "it5"
-   ]
-  }
- ],
- "settings": {
-  "hook_success": "script.backup_ok",
-  "hook_warning": "script.backup_warn",
-  "hook_failure": "script.backup_failed",
-  "overdue_days": 7,
-  "keep_runs": 30,
-  "keep_days": 90,
-  "language": "auto",
-  "time_zone": "Europe/Brussels",
-  "log_level": "info"
- },
  "runs?limit=12": {
   "runs": [
    {
-    "id": "it2-202611101400",
+    "id": "it2-20261110140900",
     "item_id": "it2",
     "trigger": "scheduled",
     "status": "running",
-    "started": "2026-11-10T14:00:00+01:00",
+    "started": "2026-11-10T14:09:00.344000+01:00",
     "ended": null,
     "files": null,
     "bytes": null,
@@ -622,5 +1240,164 @@
    "failure": 2,
    "running": 1
   }
- }
+ },
+ "runs/it2-20261110140900": {
+  "run": {
+   "id": "it2-20261110140900",
+   "item_id": "it2",
+   "trigger": "scheduled",
+   "status": "running",
+   "started": "2026-11-10T14:09:00.344000+01:00",
+   "ended": null,
+   "files": null,
+   "bytes": null,
+   "deleted": null,
+   "exit_code": null,
+   "message": null,
+   "steps": [
+    {
+     "n": 1,
+     "origin": "core",
+     "title": {
+      "code": "step_mount",
+      "params": {}
+     },
+     "why": {
+      "code": "why_mount_share",
+      "params": {}
+     },
+     "argv": [
+      "mount",
+      "-t",
+      "cifs",
+      "-o",
+      "credentials=C:\\Temp\\tmperw2j4_5\\secrets\\tg3.cred,rw",
+      "//nas.local/backup",
+      "C:/Temp/tmperw2j4_5/mnt/tg3"
+     ],
+     "skipped": false,
+     "exit_code": 0,
+     "duration_s": 0.0,
+     "output": []
+    },
+    {
+     "n": 2,
+     "origin": "core",
+     "title": {
+      "code": "step_df",
+      "params": {}
+     },
+     "why": {
+      "code": "why_df",
+      "params": {}
+     },
+     "argv": [
+      "df",
+      "--output=avail",
+      "-B1",
+      "C:/Temp/tmperw2j4_5/mnt/tg3"
+     ],
+     "skipped": false,
+     "exit_code": 0,
+     "duration_s": 0.0,
+     "output": [
+      "Avail",
+      "442381631488"
+     ]
+    },
+    {
+     "n": 3,
+     "origin": "rsync",
+     "title": {
+      "code": "step_copy",
+      "params": {}
+     },
+     "why": {
+      "code": "why_copy",
+      "params": {}
+     },
+     "argv": [
+      "rsync",
+      "-rt",
+      "--no-perms",
+      "--no-owner",
+      "--no-group",
+      "--info=progress2",
+      "--outbuf=L",
+      "--stats",
+      "--mkpath",
+      "/media/music/",
+      "C:/Temp/tmperw2j4_5/mnt/tg3/music/"
+     ],
+     "skipped": false,
+     "exit_code": null,
+     "duration_s": null,
+     "output": []
+    },
+    {
+     "n": 4,
+     "origin": "core",
+     "title": {
+      "code": "step_umount",
+      "params": {}
+     },
+     "why": {
+      "code": "why_umount",
+      "params": {}
+     },
+     "argv": [
+      "umount",
+      "C:/Temp/tmperw2j4_5/mnt/tg3"
+     ],
+     "skipped": false,
+     "exit_code": null,
+     "duration_s": null,
+     "output": []
+    }
+   ]
+  },
+  "log": [
+   {
+    "t": "2026-11-10T14:09:00.344000+01:00",
+    "level": "INFO",
+    "msg": "Run started \u00b7 scheduled \u00b7 music-to-nas"
+   },
+   {
+    "t": "2026-11-10T14:09:00.344000+01:00",
+    "level": "CMD",
+    "msg": "mount -t cifs -o credentials=C:\\Temp\\tmperw2j4_5\\secrets\\tg3.cred,rw //nas.local/backup C:/Temp/tmperw2j4_5/mnt/tg3"
+   },
+   {
+    "t": "2026-11-10T14:09:00.360000+01:00",
+    "level": "INFO",
+    "msg": "exit 0 \u00b7 0.0 s"
+   },
+   {
+    "t": "2026-11-10T14:09:00.360000+01:00",
+    "level": "CMD",
+    "msg": "df --output=avail -B1 C:/Temp/tmperw2j4_5/mnt/tg3"
+   },
+   {
+    "t": "2026-11-10T14:09:00.360000+01:00",
+    "level": "INFO",
+    "msg": "Avail"
+   },
+   {
+    "t": "2026-11-10T14:09:00.360000+01:00",
+    "level": "INFO",
+    "msg": "442381631488"
+   },
+   {
+    "t": "2026-11-10T14:09:00.360000+01:00",
+    "level": "INFO",
+    "msg": "exit 0 \u00b7 0.0 s"
+   },
+   {
+    "t": "2026-11-10T14:09:00.360000+01:00",
+    "level": "CMD",
+    "msg": "rsync -rt --no-perms --no-owner --no-group --info=progress2 --outbuf=L --stats --mkpath /media/music/ C:/Temp/tmperw2j4_5/mnt/tg3/music/"
+   }
+  ]
+ },
+ "_running_run_id": "it2-20261110140900"
 }
