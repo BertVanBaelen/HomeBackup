@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import APIRouter, FastAPI, HTTPException, Query, Request, Response
-from fastapi.responses import JSONResponse, PlainTextResponse, StreamingResponse
+from fastapi.responses import JSONResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
@@ -206,18 +206,6 @@ def build_api(store: Store) -> APIRouter:
     def scripts() -> list[str]:
         return store.scripts()
 
-    @api.get("/events", response_class=StreamingResponse)
-    async def events(request: Request):
-        async def stream():
-            while not await request.is_disconnected():
-                for p in store.status().running:
-                    yield f"event: progress\ndata: {p.model_dump_json()}\n\n"
-                yield ": ping\n\n"  # heartbeat keeps proxies from closing an idle stream
-                await asyncio.sleep(2)
-
-        # X-Accel-Buffering keeps HA's ingress proxy from holding events back
-        return StreamingResponse(stream(), media_type="text/event-stream",
-                                 headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
 
     return api
 
@@ -263,5 +251,6 @@ def create_app(static_dir: Path | None = None, store: Store | None = None,
 
 def app_factory() -> FastAPI:
     """Entry point: `uvicorn homebackup.main:app_factory --factory`."""
-    static = os.environ.get("HOMEBACKUP_STATIC")
-    return create_app(Path(static) if static else None)
+    # HA's s6 init may start us without the image's ENV, so fall back to where the Dockerfile puts the UI
+    static = Path(os.environ.get("HOMEBACKUP_STATIC") or "/app/static")
+    return create_app(static if static.is_dir() else None)

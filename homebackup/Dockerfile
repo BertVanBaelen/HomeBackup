@@ -20,4 +20,5 @@ COPY backend/homebackup ./homebackup
 RUN pip install --no-cache-dir .
 COPY --from=ui /ui/dist ./static
 ENV HOMEBACKUP_STATIC=/app/static
-CMD ["python3", "-m", "uvicorn", "homebackup.main:app_factory", "--factory", "--host", "0.0.0.0", "--port", "8099"]
+# with-contenv: s6-overlay hands the container env (SUPERVISOR_TOKEN, HOMEBACKUP_STATIC) to the process
+CMD ["/usr/bin/with-contenv", "python3", "-m", "uvicorn", "homebackup.main:app_factory", "--factory", "--host", "0.0.0.0", "--port", "8099"]

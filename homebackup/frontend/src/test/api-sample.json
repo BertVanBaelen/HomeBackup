@@ -93,7 +93,7 @@
   "log_level": "info"
  },
  "config": {
-  "path": "C:\\Temp\\tmppotwweqa\\homebackup.yaml",
+  "path": "C:\\Temp\\tmpbnhudflx\\homebackup.yaml",
   "valid": true,
   "items": 5,
   "targets": 3,
@@ -186,9 +186,9 @@
      "-t",
      "cifs",
      "-o",
-     "credentials=C:\\Temp\\tmppotwweqa\\secrets\\tg3.cred,rw",
+     "credentials=C:\\Temp\\tmpbnhudflx\\secrets\\tg3.cred,rw",
      "//nas.local/backup",
-     "C:/Temp/tmppotwweqa/mnt/tg3"
+     "C:/Temp/tmpbnhudflx/mnt/tg3"
     ],
     "skipped": false
    },
@@ -207,7 +207,7 @@
      "df",
      "--output=avail",
      "-B1",
-     "C:/Temp/tmppotwweqa/mnt/tg3"
+     "C:/Temp/tmpbnhudflx/mnt/tg3"
     ],
     "skipped": false
    },
@@ -233,7 +233,7 @@
      "--stats",
      "--mkpath",
      "/homeassistant/",
-     "C:/Temp/tmppotwweqa/mnt/tg3/homeassistant/"
+     "C:/Temp/tmpbnhudflx/mnt/tg3/homeassistant/"
     ],
     "skipped": false
    },
@@ -250,7 +250,7 @@
     },
     "argv": [
      "umount",
-     "C:/Temp/tmppotwweqa/mnt/tg3"
+     "C:/Temp/tmpbnhudflx/mnt/tg3"
     ],
     "skipped": false
    }
@@ -282,14 +282,14 @@
    }
   }
  },
- "runs/it5-20261110140900-2bcd": {
+ "runs/it5-20261110140900-ab0f": {
   "run": {
-   "id": "it5-20261110140900-2bcd",
+   "id": "it5-20261110140900-ab0f",
    "item_id": "it5",
    "trigger": "manual",
    "status": "success",
-   "started": "2026-11-10T14:09:00.531000+01:00",
-   "ended": "2026-11-10T14:09:00.562000+01:00",
+   "started": "2026-11-10T14:09:00.437000+01:00",
+   "ended": "2026-11-10T14:09:00.453000+01:00",
    "files": 1204,
    "bytes": 48962627174,
    "deleted": 0,
@@ -312,9 +312,9 @@
       "-t",
       "cifs",
       "-o",
-      "credentials=C:\\Temp\\tmppotwweqa\\secrets\\tg3.cred,rw",
+      "credentials=C:\\Temp\\tmpbnhudflx\\secrets\\tg3.cred,rw",
       "//nas.local/backup",
-      "C:/Temp/tmppotwweqa/mnt/tg3"
+      "C:/Temp/tmpbnhudflx/mnt/tg3"
      ],
      "skipped": false,
      "exit_code": 0,
@@ -336,7 +336,7 @@
       "df",
       "--output=avail",
       "-B1",
-      "C:/Temp/tmppotwweqa/mnt/tg3"
+      "C:/Temp/tmpbnhudflx/mnt/tg3"
      ],
      "skipped": false,
      "exit_code": 0,
@@ -368,7 +368,7 @@
       "--stats",
       "--mkpath",
       "/homeassistant/",
-      "C:/Temp/tmppotwweqa/mnt/tg3/homeassistant/"
+      "C:/Temp/tmpbnhudflx/mnt/tg3/homeassistant/"
      ],
      "skipped": false,
      "exit_code": 0,
@@ -392,7 +392,7 @@
      },
      "argv": [
       "umount",
-      "C:/Temp/tmppotwweqa/mnt/tg3"
+      "C:/Temp/tmpbnhudflx/mnt/tg3"
      ],
      "skipped": false,
      "exit_code": 0,
@@ -403,77 +403,77 @@
   },
   "log": [
    {
-    "t": "2026-11-10T14:09:00.531000+01:00",
+    "t": "2026-11-10T14:09:00.437000+01:00",
     "level": "INFO",
     "msg": "Run started \u00b7 manual \u00b7 ha-config"
    },
    {
-    "t": "2026-11-10T14:09:00.531000+01:00",
+    "t": "2026-11-10T14:09:00.437000+01:00",
     "level": "CMD",
-    "msg": "mount -t cifs -o credentials=C:\\Temp\\tmppotwweqa\\secrets\\tg3.cred,rw //nas.local/backup C:/Temp/tmppotwweqa/mnt/tg3"
+    "msg": "mount -t cifs -o credentials=C:\\Temp\\tmpbnhudflx\\secrets\\tg3.cred,rw //nas.local/backup C:/Temp/tmpbnhudflx/mnt/tg3"
    },
    {
-    "t": "2026-11-10T14:09:00.531000+01:00",
+    "t": "2026-11-10T14:09:00.437000+01:00",
     "level": "INFO",
     "msg": "exit 0 \u00b7 0.0 s"
    },
    {
-    "t": "2026-11-10T14:09:00.547000+01:00",
+    "t": "2026-11-10T14:09:00.453000+01:00",
     "level": "CMD",
-    "msg": "df --output=avail -B1 C:/Temp/tmppotwweqa/mnt/tg3"
+    "msg": "df --output=avail -B1 C:/Temp/tmpbnhudflx/mnt/tg3"
    },
    {
-    "t": "2026-11-10T14:09:00.547000+01:00",
+    "t": "2026-11-10T14:09:00.453000+01:00",
     "level": "INFO",
     "msg": "Avail"
    },
    {
-    "t": "2026-11-10T14:09:00.547000+01:00",
+    "t": "2026-11-10T14:09:00.453000+01:00",
     "level": "INFO",
     "msg": "442381631488"
    },
    {
-    "t": "2026-11-10T14:09:00.547000+01:00",
+    "t": "2026-11-10T14:09:00.453000+01:00",
     "level": "INFO",
     "msg": "exit 0 \u00b7 0.0 s"
    },
    {
-    "t": "2026-11-10T14:09:00.547000+01:00",
+    "t": "2026-11-10T14:09:00.453000+01:00",
     "level": "CMD",
-    "msg": "rsync -rt --no-perms --no-owner --no-group --info=progress2 --outbuf=L --stats --mkpath /homeassistant/ C:/Temp/tmppotwweqa/mnt/tg3/homeassistant/"
+    "msg": "rsync -rt --no-perms --no-owner --no-group --info=progress2 --outbuf=L --stats --mkpath /homeassistant/ C:/Temp/tmpbnhudflx/mnt/tg3/homeassistant/"
    },
    {
-    "t": "2026-11-10T14:09:00.547000+01:00",
+    "t": "2026-11-10T14:09:00.453000+01:00",
     "level": "INFO",
     "msg": "Number of regular files transferred: 1,204"
    },
    {
-    "t": "2026-11-10T14:09:00.547000+01:00",
+    "t": "2026-11-10T14:09:00.453000+01:00",
     "level": "INFO",
     "msg": "Total transferred file size: 48,962,627,174 bytes"
    },
    {
-    "t": "2026-11-10T14:09:00.547000+01:00",
+    "t": "2026-11-10T14:09:00.453000+01:00",
     "level": "INFO",
     "msg": "Number of deleted files: 0"
    },
    {
-    "t": "2026-11-10T14:09:00.547000+01:00",
+    "t": "2026-11-10T14:09:00.453000+01:00",
     "level": "INFO",
     "msg": "exit 0 \u00b7 0.0 s"
    },
    {
-    "t": "2026-11-10T14:09:00.562000+01:00",
+    "t": "2026-11-10T14:09:00.453000+01:00",
     "level": "CMD",
-    "msg": "umount C:/Temp/tmppotwweqa/mnt/tg3"
+    "msg": "umount C:/Temp/tmpbnhudflx/mnt/tg3"
    },
    {
-    "t": "2026-11-10T14:09:00.562000+01:00",
+    "t": "2026-11-10T14:09:00.453000+01:00",
     "level": "INFO",
     "msg": "exit 0 \u00b7 0.0 s"
    },
    {
-    "t": "2026-11-10T14:09:00.562000+01:00",
+    "t": "2026-11-10T14:09:00.453000+01:00",
     "level": "INFO",
     "msg": "Result: success"
    }
@@ -660,9 +660,9 @@
      "-t",
      "cifs",
      "-o",
-     "credentials=C:\\Temp\\tmppotwweqa\\secrets\\tg3.cred,rw",
+     "credentials=C:\\Temp\\tmpbnhudflx\\secrets\\tg3.cred,rw",
      "//nas.local/backup",
-     "C:/Temp/tmppotwweqa/mnt/tg3"
+     "C:/Temp/tmpbnhudflx/mnt/tg3"
     ],
     "skipped": false
    },
@@ -681,7 +681,7 @@
      "df",
      "--output=avail",
      "-B1",
-     "C:/Temp/tmppotwweqa/mnt/tg3"
+     "C:/Temp/tmpbnhudflx/mnt/tg3"
     ],
     "skipped": false
    },
@@ -707,7 +707,7 @@
      "--stats",
      "--mkpath",
      "/homeassistant/",
-     "C:/Temp/tmppotwweqa/mnt/tg3/homeassistant/"
+     "C:/Temp/tmpbnhudflx/mnt/tg3/homeassistant/"
     ],
     "skipped": false
    },
@@ -724,7 +724,7 @@
     },
     "argv": [
      "umount",
-     "C:/Temp/tmppotwweqa/mnt/tg3"
+     "C:/Temp/tmpbnhudflx/mnt/tg3"
     ],
     "skipped": false
    }
@@ -745,14 +745,14 @@
   "device": "/dev/sda2",
   "free_bytes": 442381631488
  },
- "_manual_run_id": "it5-20261110140900-2bcd",
+ "_manual_run_id": "it5-20261110140900-ab0f",
  "status": {
-  "now": "2026-11-10T14:09:06.329000+01:00",
+  "now": "2026-11-10T14:09:06.328000+01:00",
   "time_zone": "Europe/Brussels",
   "queue": [],
   "running": [
    {
-    "run_id": "it2-20261110140900-4a10",
+    "run_id": "it2-20261110140900-b741",
     "percent": 5.0,
     "bytes_done": 2448131358,
     "bytes_total": 48962627160,
@@ -865,11 +865,11 @@
    },
    "next_run": "2026-11-11T14:00:00+01:00",
    "last_run": {
-    "id": "it2-20261110140900-4a10",
+    "id": "it2-20261110140900-b741",
     "item_id": "it2",
     "trigger": "scheduled",
     "status": "running",
-    "started": "2026-11-10T14:09:00.313000+01:00",
+    "started": "2026-11-10T14:09:00.265000+01:00",
     "ended": null,
     "files": null,
     "bytes": null,
@@ -1058,11 +1058,11 @@
  "runs?limit=12": {
   "runs": [
    {
-    "id": "it2-20261110140900-4a10",
+    "id": "it2-20261110140900-b741",
     "item_id": "it2",
     "trigger": "scheduled",
     "status": "running",
-    "started": "2026-11-10T14:09:00.313000+01:00",
+    "started": "2026-11-10T14:09:00.265000+01:00",
     "ended": null,
     "files": null,
     "bytes": null,
@@ -1277,13 +1277,13 @@
    "running": 1
   }
  },
- "runs/it2-20261110140900-4a10": {
+ "runs/it2-20261110140900-b741": {
   "run": {
-   "id": "it2-20261110140900-4a10",
+   "id": "it2-20261110140900-b741",
    "item_id": "it2",
    "trigger": "scheduled",
    "status": "running",
-   "started": "2026-11-10T14:09:00.313000+01:00",
+   "started": "2026-11-10T14:09:00.265000+01:00",
    "ended": null,
    "files": null,
    "bytes": null,
@@ -1307,9 +1307,9 @@
       "-t",
       "cifs",
       "-o",
-      "credentials=C:\\Temp\\tmp2bgxdl3_\\secrets\\tg3.cred,rw",
+      "credentials=C:\\Temp\\tmpw9rp59l9\\secrets\\tg3.cred,rw",
       "//nas.local/backup",
-      "C:/Temp/tmp2bgxdl3_/mnt/tg3"
+      "C:/Temp/tmpw9rp59l9/mnt/tg3"
      ],
      "skipped": false,
      "exit_code": 0,
@@ -1331,7 +1331,7 @@
       "df",
       "--output=avail",
       "-B1",
-      "C:/Temp/tmp2bgxdl3_/mnt/tg3"
+      "C:/Temp/tmpw9rp59l9/mnt/tg3"
      ],
      "skipped": false,
      "exit_code": 0,
@@ -1363,7 +1363,7 @@
       "--stats",
       "--mkpath",
       "/media/music/",
-      "C:/Temp/tmp2bgxdl3_/mnt/tg3/music/"
+      "C:/Temp/tmpw9rp59l9/mnt/tg3/music/"
      ],
      "skipped": false,
      "exit_code": null,
@@ -1383,7 +1383,7 @@
      },
      "argv": [
       "umount",
-      "C:/Temp/tmp2bgxdl3_/mnt/tg3"
+      "C:/Temp/tmpw9rp59l9/mnt/tg3"
      ],
      "skipped": false,
      "exit_code": null,
@@ -1394,46 +1394,46 @@
   },
   "log": [
    {
-    "t": "2026-11-10T14:09:00.329000+01:00",
+    "t": "2026-11-10T14:09:00.265000+01:00",
     "level": "INFO",
     "msg": "Run started \u00b7 scheduled \u00b7 music-to-nas"
    },
    {
-    "t": "2026-11-10T14:09:00.329000+01:00",
+    "t": "2026-11-10T14:09:00.265000+01:00",
     "level": "CMD",
-    "msg": "mount -t cifs -o credentials=C:\\Temp\\tmp2bgxdl3_\\secrets\\tg3.cred,rw //nas.local/backup C:/Temp/tmp2bgxdl3_/mnt/tg3"
+    "msg": "mount -t cifs -o credentials=C:\\Temp\\tmpw9rp59l9\\secrets\\tg3.cred,rw //nas.local/backup C:/Temp/tmpw9rp59l9/mnt/tg3"
    },
    {
-    "t": "2026-11-10T14:09:00.329000+01:00",
+    "t": "2026-11-10T14:09:00.265000+01:00",
     "level": "INFO",
     "msg": "exit 0 \u00b7 0.0 s"
    },
    {
-    "t": "2026-11-10T14:09:00.329000+01:00",
+    "t": "2026-11-10T14:09:00.265000+01:00",
     "level": "CMD",
-    "msg": "df --output=avail -B1 C:/Temp/tmp2bgxdl3_/mnt/tg3"
+    "msg": "df --output=avail -B1 C:/Temp/tmpw9rp59l9/mnt/tg3"
    },
    {
-    "t": "2026-11-10T14:09:00.329000+01:00",
+    "t": "2026-11-10T14:09:00.265000+01:00",
     "level": "INFO",
     "msg": "Avail"
    },
    {
-    "t": "2026-11-10T14:09:00.329000+01:00",
+    "t": "2026-11-10T14:09:00.265000+01:00",
     "level": "INFO",
     "msg": "442381631488"
    },
    {
-    "t": "2026-11-10T14:09:00.329000+01:00",
+    "t": "2026-11-10T14:09:00.265000+01:00",
     "level": "INFO",
     "msg": "exit 0 \u00b7 0.0 s"
    },
    {
-    "t": "2026-11-10T14:09:00.329000+01:00",
+    "t": "2026-11-10T14:09:00.281000+01:00",
     "level": "CMD",
-    "msg": "rsync -rt --no-perms --no-owner --no-group --info=progress2 --outbuf=L --stats --mkpath /media/music/ C:/Temp/tmp2bgxdl3_/mnt/tg3/music/"
+    "msg": "rsync -rt --no-perms --no-owner --no-group --info=progress2 --outbuf=L --stats --mkpath /media/music/ C:/Temp/tmpw9rp59l9/mnt/tg3/music/"
    }
   ]
  },
- "_running_run_id": "it2-20261110140900-4a10"
+ "_running_run_id": "it2-20261110140900-b741"
 }

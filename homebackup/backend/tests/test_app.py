@@ -23,3 +23,13 @@ def test_only_ingress_proxy_allowed(store):
     assert other.get("/api/v1/status").status_code == 403
     ingress = TestClient(create_app(store=store), client=("172.30.32.2", 50000))
     assert ingress.get("/api/v1/status").status_code == 200
+
+
+def test_app_factory_serves_the_ui(tmp_path, monkeypatch):
+    from homebackup.main import app_factory
+    (tmp_path / "ui").mkdir()
+    (tmp_path / "ui" / "index.html").write_text("<html>hb</html>")
+    monkeypatch.setenv("HOMEBACKUP_DEMO", "1")
+    monkeypatch.setenv("HOMEBACKUP_DATA", str(tmp_path / "data"))
+    monkeypatch.setenv("HOMEBACKUP_STATIC", str(tmp_path / "ui"))
+    assert TestClient(app_factory(), client=("172.30.32.2", 1)).get("/").text == "<html>hb</html>"

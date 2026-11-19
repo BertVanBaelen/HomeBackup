@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import {
   type ItemView, type Progress, type Status, type TargetView,
-  useCancelRun, useItems, useLiveProgress, useRunNow, useStatus, useTargets,
+  useCancelRun, useItems, useRunNow, useStatus, useTargets,
 } from '@/api/client'
 import { HoldConfirm } from '@/components/hb/HoldConfirm'
 import { RunStrip } from '@/components/hb/RunStrip'
@@ -15,7 +15,6 @@ const pill = 'inline-flex min-h-11 items-center justify-center gap-2 rounded-ful
 
 export function Dashboard() {
   const { t } = useTranslation()
-  useLiveProgress()
   const status = useStatus().data
   const items = useItems().data
   const targets = useTargets().data

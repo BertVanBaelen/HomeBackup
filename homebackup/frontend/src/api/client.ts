@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import type { components } from './schema'
 
@@ -60,7 +59,11 @@ export function fieldErrors(e: unknown): Record<string, string> {
 }
 
 // --- reads -----------------------------------------------------------------------------
-export const useStatus = () => useQuery({ queryKey: ['status'], queryFn: () => call<Status>('status'), refetchInterval: 5_000 })
+// Polling, not a live stream: proxies between the browser and HA (e.g. corporate web gateways) break long-lived streams.
+export const useStatus = () => useQuery({
+  queryKey: ['status'], queryFn: () => call<Status>('status'),
+  refetchInterval: (q) => (q.state.data?.running.length ? 2_000 : 10_000),
+})
 export const useItems = () => useQuery({ queryKey: ['items'], queryFn: () => call<ItemView[]>('items'), refetchInterval: 15_000 })
 export const useItem = (id: string | undefined) =>
   useQuery({ queryKey: ['item', id], queryFn: () => call<Item>(`items/${id}`), enabled: !!id })
@@ -118,23 +121,3 @@ export const useSaveSettings = () => useInvalidating((s: Settings) => call<Setti
 export const useCheckConfig = () => useInvalidating(() => call<ConfigStatus>('config/check', { method: 'POST' }))
 export const useRefreshTypes = () => useInvalidating(() => call<BackupType[]>('types/refresh', { method: 'POST' }))
 
-/** Live progress over SSE, merged into the cached status; the status query's polling is the fallback. */
-export function useLiveProgress() {
-  const qc = useQueryClient()
-  useEffect(() => {
-    if (typeof EventSource === 'undefined') return
-    const es = new EventSource('api/v1/events')
-    es.addEventListener('progress', (e) => {
-      const p = JSON.parse((e as MessageEvent).data) as Progress
-      qc.setQueryData<Status>(['status'], (s) => {
-        if (!s) return s
-        if (!s.running.some((r) => r.run_id === p.run_id)) {
-          void qc.invalidateQueries() // a new run started or one finished: refresh everything
-          return s
-        }
-        return { ...s, running: s.running.map((r) => (r.run_id === p.run_id ? p : r)) }
-      })
-    })
-    return () => es.close()
-  }, [qc])
-}

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.3
+- Fix: opening HomeBackup showed `{"detail":"Not Found"}`. Home Assistant's init system started the add-on without the image's environment, so the UI folder (and the Supervisor token) were missing. The add-on now starts through `with-contenv` and also finds the UI without the variable.
+- Live progress uses polling (every 2 s during a run, 10 s otherwise) instead of a long-lived stream, which web proxies such as corporate gateways cut off (502 Bad Gateway).
+
 ## 0.3.2
 - Fix: the add-on image now builds and runs on Home Assistant OS. The base image is declared in the Dockerfile (`build.yaml` is deprecated), the frontend builds on a glibc Node image, and the GNU `df`, util-linux `blkid`/`mount`/`umount` and `findutils` are installed (BusyBox's versions lack the options HomeBackup uses).
 - Fix: the mount point under `/mnt/hb/` is created before mounting (runs and Test target).
