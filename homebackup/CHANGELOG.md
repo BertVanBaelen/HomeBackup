@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.2
+- Fix: the add-on image now builds and runs on Home Assistant OS. The base image is declared in the Dockerfile (`build.yaml` is deprecated), the frontend builds on a glibc Node image, and the GNU `df`, util-linux `blkid`/`mount`/`umount` and `findutils` are installed (BusyBox's versions lack the options HomeBackup uses).
+- Fix: the mount point under `/mnt/hb/` is created before mounting (runs and Test target).
+
 ## 0.3.1
 - Pages slide left or right when you switch sections.
 - Every tab-like choice (filters, Drive/Share, UUID/Label, SMB/NFS, language) uses the Kokonut swipe tabs.

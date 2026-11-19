@@ -1,5 +1,5 @@
 name: HomeBackup
-version: "0.3.1"
+version: "0.3.2"
 slug: homebackup
 description: Back up Home Assistant, Immich and media to USB drives and network shares with rsync.
 url: https://github.com/BertVanBaelen/HomeBackup

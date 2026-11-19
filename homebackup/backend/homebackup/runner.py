@@ -4,6 +4,7 @@ import asyncio
 import time
 import uuid
 from collections import deque
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 from .models import Message, Progress, RunDetail, StepResult
@@ -88,6 +89,8 @@ class Runner:
                 if failure or st.skipped:
                     continue
                 argv = [device if a == "{device}" else a for a in st.argv]
+                if argv[0] == "mount":
+                    Path(argv[-1]).mkdir(parents=True, exist_ok=True)  # mount needs an existing mount point
                 code, lines = await self._step(run, st, argv, log)
                 prog = argv[0]
                 if prog == "blkid":

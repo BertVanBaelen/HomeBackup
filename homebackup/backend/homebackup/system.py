@@ -129,8 +129,7 @@ class FakeExec:
                 on_line(dev.device)
             return 0 if dev else 2
         if prog == "mount":
-            Path(argv[-1]).mkdir(parents=True, exist_ok=True)
-            return 0
+            return 0 if Path(argv[-1]).is_dir() else 32  # like real mount: the mount point must exist
         if prog == "df":
             on_line("Avail")
             on_line(str(self.free))

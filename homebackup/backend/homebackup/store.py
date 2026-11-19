@@ -269,6 +269,7 @@ class Store:
             dummy = Item(id="test", name="test", source="/", target_id=probe.id, target_path="x", schedule="0 0 * * *")
             mount = self.plan_for_target(dummy, probe).steps
             argv = next(s.argv for s in mount if s.argv[:1] == ["mount"])
+            Path(mp).mkdir(parents=True, exist_ok=True)  # mount needs an existing mount point
             if await self.exec([device if a == "{device}" else a for a in argv], sink.append) != 0:
                 return TargetTest(ok=False, device=device, problem=Message(code="mount_failed", params={"target": probe.name}))
             mounted = True
